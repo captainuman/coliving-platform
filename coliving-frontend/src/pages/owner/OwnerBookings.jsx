@@ -31,7 +31,7 @@ export default function OwnerBookings() {
 
   const BACKEND_URL =
   import.meta.env.VITE_API_URL?.replace("/api", "") ||
-  "http://localhost:5000";
+  "https://coliving-backend.onrender.com";
 
   const updateStatus = async (id, status) => {
     try {

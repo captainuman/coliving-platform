@@ -59,7 +59,7 @@ const fetchReviews = async () => {
 
 const BACKEND_URL =
   import.meta.env.VITE_API_URL?.replace("/api", "") ||
-  "http://localhost:5000";
+  "https://coliving-backend.onrender.com";
 
   const fetchProfile = async () => {
     try {

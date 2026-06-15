@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/admin/analytics";
+const API_URL = "https://coliving-backend.onrender.com/api/admin/analytics";
 
 const getToken = () => {
   return localStorage.getItem("token");

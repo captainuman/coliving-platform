@@ -25,7 +25,7 @@ export default function ChatHeader({
             <img
               src={
                 otherUser.profilePic.startsWith("/uploads")
-                  ? `http://localhost:5000${otherUser.profilePic}`
+                  ? `https://coliving-backend.onrender.com${otherUser.profilePic}`
                   : otherUser.profilePic
               }
               alt={otherUser.name}

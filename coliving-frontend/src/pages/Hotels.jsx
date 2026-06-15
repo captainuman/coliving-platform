@@ -19,7 +19,7 @@ export default function Hotels() {
 
   const BACKEND_URL =
   import.meta.env.VITE_API_URL?.replace("/api", "") ||
-  "http://localhost:5000";
+  "https://coliving-backend.onrender.com";
 
 const getRoomImage = (room) => {
   if (!room.images?.length) {

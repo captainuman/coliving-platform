@@ -15,7 +15,7 @@ export default function Bookings() {
 
   const BACKEND_URL =
   import.meta.env.VITE_API_URL?.replace("/api", "") ||
-  "http://localhost:5000";
+  "https://coliving-backend.onrender.com";
 
   const fetchBookings = async () => {
     try {
@@ -122,8 +122,8 @@ export default function Bookings() {
                   <img
                     src={
                       booking.room.images[0].startsWith("/uploads")
-                        ? `http://localhost:5000${booking.room.images[0]}`
-                        : `http://localhost:5000/uploads/rooms/${booking.room.images[0]}`
+                        ? `https://coliving-backend.onrender.com${booking.room.images[0]}`
+                        : `https://coliving-backend.onrender.com/uploads/rooms/${booking.room.images[0]}`
                     }
                     alt="room"
                     className="w-full h-40 object-cover"
