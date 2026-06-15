@@ -44,22 +44,15 @@ export default function Register() {
       return toast.error("Enter email first");
     }
 
-    try {
-      setOtpLoading(true);
-
-      await API.post("/auth/send-otp", {
-        email: form.email
-      });
-
-      toast.success("OTP sent to email");
-      setOtpSent(true);
-    } catch (err) {
-      toast.error(
-        err.response?.data?.message || "Failed to send OTP"
-      );
-    } finally {
-      setOtpLoading(false);
-    }
+    ttry {
+  setOtpLoading(true);
+  await API.post("/auth/send-otp", { email: form.email });
+  toast.success("OTP sent successfully");
+} catch (err) {
+  toast.error(err.response?.data?.message || "Failed to send OTP");
+} finally {
+  setOtpLoading(false);
+}
   };
 
   const handleRegister = async (e) => {

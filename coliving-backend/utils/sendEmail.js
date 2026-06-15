@@ -1,36 +1,33 @@
 const nodemailer = require("nodemailer");
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL,
-    pass: process.env.EMAIL_PASSWORD
-  }
-});
+const sendEmail = async (to, subject, message) => {
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.EMAIL,
+      pass: process.env.EMAIL_PASSWORD
+    }
+  });
 
-const sendEmail = async (
-  to,
-  subject,
-  html
-) => {
-  try {
-    await transporter.sendMail({
-      from: `"HometownHub" <${process.env.EMAIL}>`,
-      to,
-      subject,
-      html
-    });
+  await transporter.sendMail({
+    from: `"Co-Living Platform" <${process.env.EMAIL}>`,
+    to,
+    subject,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto;">
+        <h2>${subject}</h2>
 
-    console.log(`Email sent to ${to}`);
+        <p>${message}</p>
 
-  } catch (error) {
-    console.error(
-      "EMAIL ERROR:",
-      error.message
-    );
+        <br />
 
-    throw error;
-  }
+        <p>
+          Regards,<br />
+          Co-Living Space Platform
+        </p>
+      </div>
+    `
+  });
 };
 
 module.exports = sendEmail;
