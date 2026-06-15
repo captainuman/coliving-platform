@@ -52,14 +52,23 @@ app.use("/api/owner/dashboard", require("./routes/ownerDashboardRoutes"));
 app.use("/api/admin/analytics", require("./routes/adminAnalytics.routes"));
 
 /* SOCKET.IO */
-const io = new Server(server, {
-  cors: {
-    origin: CLIENT_URL,
-    methods: ["GET", "POST"],
-    credentials: true,
-  },
-});
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://the-starks.vercel.app"
+];
 
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true
+  })
+);
 const onlineUsers = new Map();
 
 io.on("connection", (socket) => {
