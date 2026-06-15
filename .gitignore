@@ -1,0 +1,13 @@
+node_modules
+.env
+dist
+build
+uploads
+
+coliving-backend/node_modules
+coliving-backend/.env
+coliving-backend/uploads
+
+coliving-frontend/node_modules
+coliving-frontend/.env
+coliving-frontend/dist
