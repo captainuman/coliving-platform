@@ -259,24 +259,37 @@ export default function Properties() {
 
     return (
       <>
-        <div className="overflow-hidden px-4 sm:px-6 lg:px-10">
+        <div className="overflow-hidden px-5 sm:px-8 lg:px-10">
           <Swiper
             modules={[Navigation]}
             navigation
+            centeredSlides={false}
+            className="py-2"
             spaceBetween={20}
-            className="px-10"
             breakpoints={{
-              0: { slidesPerView: 1, spaceBetween: 12 },
-              480: { slidesPerView: 1.2, spaceBetween: 14 },
-              640: { slidesPerView: 2, spaceBetween: 16 },
-              768: { slidesPerView: 2.5, spaceBetween: 18 },
-              1024: { slidesPerView: 3, spaceBetween: 20 },
-              1280: { slidesPerView: 4, spaceBetween: 20 },
+              0: {
+                slidesPerView: 1,
+                spaceBetween: 16,
+              },
+              640: {
+                slidesPerView: 2,
+                spaceBetween: 20,
+              },
+              1024: {
+                slidesPerView: 3,
+                spaceBetween: 20,
+              },
+              1280: {
+                slidesPerView: 4,
+                spaceBetween: 20,
+              },
             }}
           >
             {properties.map((property) => (
-              <SwiperSlide key={property._id}>
-                <PropertyCard property={property} />
+              <SwiperSlide key={property._id} className="flex justify-center">
+                <div className="w-full max-w-sm mx-auto">
+                  <PropertyCard property={property} />
+                </div>
               </SwiperSlide>
             ))}
           </Swiper>
@@ -296,8 +309,15 @@ export default function Properties() {
               Find Your Space. Find Your People
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[2.5fr_1fr_1fr_1fr_1fr] bg-white overflow-hidden rounded-xl shadow-xl/30 shadow-black/50 font-poppins text-[14px] font-medium">
-              <div className="border-r border-gray-300 p-4">
+            <div
+              className="
+                flex flex-col
+                lg:grid lg:grid-cols-[2.5fr_1fr_1fr_1fr_1fr]
+                bg-white overflow-hidden rounded-xl shadow-xl/30 shadow-black/50
+                font-poppins text-[14px] font-medium
+              "
+            >
+              <div className="border-b lg:border-b-0 lg:border-r border-gray-300 p-4">
                 <p className="text-gray-500 mb-2">
                   📍 Enter City Name, Location, or Specific hotel
                 </p>
@@ -312,7 +332,7 @@ export default function Properties() {
                 />
               </div>
 
-              <div className="border-r border-gray-300 p-4">
+              <div className="border-b lg:border-b-0 lg:border-r border-gray-300 p-4">
                 <p className="text-gray-500 mb-2">💰 Maximum Rent</p>
 
                 <input
@@ -325,7 +345,7 @@ export default function Properties() {
                 />
               </div>
 
-              <div className="border-r border-gray-300 p-4">
+              <div className="border-b lg:border-b-0 lg:border-r border-gray-300 p-4">
                 <p className="text-gray-500 mb-2">🛏 Room Type</p>
 
                 <select
@@ -340,7 +360,7 @@ export default function Properties() {
                 </select>
               </div>
 
-              <div className="border-r border-gray-300 p-4">
+              <div className="border-b lg:border-b-0 lg:border-r border-gray-300 p-4">
                 <p className="text-gray-500 mb-2">👤 Gender</p>
 
                 <select
@@ -361,7 +381,7 @@ export default function Properties() {
                   const query = new URLSearchParams(filters).toString();
                   navigate(`/hotels?${query}`);
                 }}
-                className="bg-orange-500 hover:bg-orange-600 text-[18px] font-semibold text-white text-2xl transition-all"
+                className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-4 lg:py-0"
               >
                 SEARCH
               </button>
