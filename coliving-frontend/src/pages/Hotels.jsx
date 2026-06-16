@@ -168,15 +168,7 @@ export default function Hotels() {
 
                 {/* PRICE */}
 
-                <div
-                  className="
-                    lg:col-span-3
-                    border-t lg:border-t-0
-                    lg:border-l border-gray-300
-                    p-4 lg:p-6
-                    flex flex-col justify-between
-                  "
-                >
+                <div className="lg:col-span-3 border-t lg:border-t-0 lg:border-l border-gray-300 p-4 lg:p-6 flex flex-col">
                   <>
                     {/* Mobile Only */}
                     <div className="flex justify-between items-start lg:hidden mb-4">
@@ -229,22 +221,23 @@ export default function Hotels() {
                         </span>
                       </div>
 
-                      <h2 className="text-[22px] font-black">
-                        ₹ {property.rent}
-                      </h2>
+                      <div className="flex justify-between items-start lg:block">
+                        <h2 className="text-[22px] font-black">
+                          ₹ {property.rent}
+                        </h2>
 
-                      <p className="text-gray-600 text-[14px]">Per Month</p>
+                        <p className="text-gray-600 text-[14px]">Per Month</p>
 
-                      <p className="text-gray-600 text-[14px]">
-                        + ₹{property.deposit} Deposit
-                      </p>
+                        <p className="text-gray-600 text-[14px]">
+                          + ₹{property.deposit} Deposit
+                        </p>
+                      </div>
                     </div>
                   </>
                 </div>
                 <button
                   onClick={() => navigate(`/rooms/${property.property?._id}`)}
-                  className="text-blue-600 text-[14px] lg:text-[16px] font-medium text-left lg:text-end mt-4"
-                >
+                  className="mt-4 lg:mt-8 text-blue-600 text-[14px] lg:text-[16px] font-medium text-center lg:text-right lg:self-end">
                   Book Now & Pay Later!
                 </button>
               </div>
