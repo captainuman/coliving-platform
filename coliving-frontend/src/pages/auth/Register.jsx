@@ -29,13 +29,13 @@ export default function Register() {
     zipCode: "",
     currency: "INR",
     language: "English",
-    otp: ""
+    otp: "",
   });
 
   const handleChange = (e) => {
     setForm({
       ...form,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -44,15 +44,15 @@ export default function Register() {
       return toast.error("Enter email first");
     }
 
-    ttry {
-  setOtpLoading(true);
-  await API.post("/auth/send-otp", { email: form.email });
-  toast.success("OTP sent successfully");
-} catch (err) {
-  toast.error(err.response?.data?.message || "Failed to send OTP");
-} finally {
-  setOtpLoading(false);
-}
+    try {
+      setOtpLoading(true);
+      await API.post("/auth/send-otp", { email: form.email });
+      toast.success("OTP sent successfully");
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to send OTP");
+    } finally {
+      setOtpLoading(false);
+    }
   };
 
   const handleRegister = async (e) => {
@@ -77,16 +77,14 @@ export default function Register() {
 
       await API.post("/auth/register", formData, {
         headers: {
-          "Content-Type": "multipart/form-data"
-        }
+          "Content-Type": "multipart/form-data",
+        },
       });
 
       toast.success("Registration successful");
       navigate("/login");
     } catch (err) {
-      toast.error(
-        err.response?.data?.message || "Registration failed"
-      );
+      toast.error(err.response?.data?.message || "Registration failed");
     } finally {
       setRegisterLoading(false);
     }
@@ -112,14 +110,10 @@ export default function Register() {
               Create Account
             </h1>
 
-            <p className="text-center text-white/50 mb-10">
-              Join HomeTown Hub
-            </p>
+            <p className="text-center text-white/50 mb-10">Join HomeTown Hub</p>
 
             <div className="mb-8">
-              <h2 className="text-xl text-white mb-5">
-                Basic Information
-              </h2>
+              <h2 className="text-xl text-white mb-5">Basic Information</h2>
 
               <div className="grid md:grid-cols-2 gap-5">
                 <input
@@ -128,7 +122,7 @@ export default function Register() {
                   placeholder="Full Name"
                   value={form.name}
                   onChange={handleChange}
-                  className="h-14 rounded-full bg-white/20 backdrop-blur-md px-5 text-white placeholder-white/60 outline-none"
+                  className="w-full h-14 rounded-full bg-white/20 backdrop-blur-md px-5 text-white placeholder-white/60 outline-none"
                   required
                 />
 
@@ -208,9 +202,7 @@ export default function Register() {
             </div>
 
             <div className="mb-8">
-              <h2 className="text-xl text-white mb-5">
-                Account Type
-              </h2>
+              <h2 className="text-xl text-white mb-5">Account Type</h2>
 
               <select
                 name="role"
@@ -228,9 +220,7 @@ export default function Register() {
             </div>
 
             <div className="mb-8">
-              <h2 className="text-xl text-white mb-5">
-                Lifestyle Preferences
-              </h2>
+              <h2 className="text-xl text-white mb-5">Lifestyle Preferences</h2>
 
               <div className="grid md:grid-cols-2 gap-5">
                 <select
