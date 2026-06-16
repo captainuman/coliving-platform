@@ -144,24 +144,24 @@ export default function Rooms() {
               {propertyData?.address?.district} {propertyData?.address?.state}{" "}
               {propertyData?.address?.pincode}
             </p>
+            <div className="flex items-center gap-3 px-5 ">
+  <div className="flex flex-col">
+    <span className="text-[14px] font-medium">
+      {getRatingLabel(Number(averageRating))}
+    </span>
+
+    <span className="text-gray-500 text-[13px] font-normal">
+      {totalReviews || 0} Reviews
+    </span>
+  </div>
+
+  <div className="bg-green-500 text-white px-2 py-1 rounded-lg font-bold">
+    {averageRating || 0}
+  </div>
+</div>
           </div>
 
-          <div className="flex items-center gap-3 px-5 ">
-            <div className="flex flex-col">
-              <span className="text-[14px] font-medium">
-                {getRatingLabel(Number(averageRating))}
-              </span>
-
-              <span className="text-gray-500 text-[13px] font-normal">
-                {totalReviews || 0} Reviews
-              </span>
-            </div>
-
-            <div className="bg-green-500 text-white px-2 py-1 rounded-lg font-bold">
-              {averageRating || 0}
-            </div>
-          </div>
-        </div>
+    
 
         <div className="grid lg:grid-cols-14 gap-4 mt-3">
           {/* Main Image */}
