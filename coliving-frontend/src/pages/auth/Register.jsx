@@ -39,22 +39,34 @@ export default function Register() {
     });
   };
 
-  const handleSendOtp = async () => {
-    if (!form.email) {
-      return toast.error("Enter email first");
-    }
+ const handleSendOtp = async () => {
+  if (!form.email) {
+    return toast.error("Enter email first");
+  }
 
-    try {
-      setOtpLoading(true);
-      await API.post("/auth/send-otp", { email: form.email });
-      toast.success("OTP sent successfully");
-    } catch (err) {
-      toast.error(err.response?.data?.message || "Failed to send OTP");
-    } finally {
-      setOtpLoading(false);
-    }
-  };
+  try {
+    setOtpLoading(true);
 
+    const res = await API.post("/auth/send-otp", {
+      email: form.email,
+    });
+
+    setOtpSent(true); // ADD THIS
+
+    toast.success(
+      res.data?.message || "OTP sent successfully"
+    );
+  } catch (err) {
+    console.log(err);
+
+    toast.error(
+      err.response?.data?.message ||
+      "Failed to send OTP"
+    );
+  } finally {
+    setOtpLoading(false);
+  }
+};
   const handleRegister = async (e) => {
     e.preventDefault();
 
