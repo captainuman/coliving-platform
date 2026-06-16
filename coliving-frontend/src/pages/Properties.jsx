@@ -254,6 +254,13 @@ export default function Properties() {
     </div>
   );
 
+  const EmptyPropertyBox = ({ message }) => (
+    <div className="max-w-4xl mx-auto border border-dashed border-gray-300 rounded-2xl bg-gray-50 py-12 px-6 text-center">
+      <div className="text-5xl mb-3">🏠</div>
+      <p className="text-gray-500 text-lg">{message}</p>
+    </div>
+  );
+
   const PropertySection = ({ title, properties }) => {
     if (!properties?.length) return null;
 
@@ -455,27 +462,39 @@ export default function Properties() {
           </div>
 
           <div className="text-blue-950 mb-10">
-            <h1 className="text-[26px] sm:text-[30px] lg:text-[36px] font-medium text-center px-4 sm:px-10 font-recoleta mb-5 text-blue-950">
-              {" "}
+            <h1 className="text-[26px] sm:text-[30px] lg:text-[36px] font-medium text-center px-4 sm:px-10 font-recoleta mb-5">
               Recently Viewed Properties
             </h1>
-            <PropertySection properties={recentlyViewedProperties} />
+
+            {recentlyViewedProperties?.length > 0 ? (
+              <PropertySection properties={recentlyViewedProperties} />
+            ) : (
+              <EmptyPropertyBox message="No recently viewed properties found." />
+            )}
           </div>
 
           <div className="text-blue-950 mb-10">
-            <h1 className="text-[26px] sm:text-[30px] lg:text-[36px] font-medium text-center px-4 sm:px-10 font-recoleta mb-5 text-blue-950">
-              {" "}
+            <h1 className="text-[26px] sm:text-[30px] lg:text-[36px] font-medium text-center px-4 sm:px-10 font-recoleta mb-5">
               Recommended Properties Stays For You
             </h1>
-            <PropertySection properties={recommendedProperties} />
+
+            {recommendedProperties?.length > 0 ? (
+              <PropertySection properties={recommendedProperties} />
+            ) : (
+              <EmptyPropertyBox message="No recommended properties available." />
+            )}
           </div>
 
           <div className="text-blue-950 mb-10">
-            <h1 className="text-[26px] sm:text-[30px] lg:text-[36px] font-medium text-center px-4 sm:px-10 font-recoleta mb-5 text-blue-950">
-              {" "}
+            <h1 className="text-[26px] sm:text-[30px] lg:text-[36px] font-medium text-center px-4 sm:px-10 font-recoleta mb-5">
               Recently Created Properties
             </h1>
-            <PropertySection properties={recentProperties} />
+
+            {recentProperties?.length > 0 ? (
+              <PropertySection properties={recentProperties} />
+            ) : (
+              <EmptyPropertyBox message="No recently created properties available." />
+            )}
           </div>
 
           <div className="font-poppins pb-10">

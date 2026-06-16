@@ -83,7 +83,7 @@ return (
     <Navbar />
 
     <main className="min-h-[calc(100vh-80px)] bg-linear-to-br from-black via-[#111827] to-[#1f2937] flex items-center justify-center px-3 sm:px-6 py-6 sm:py-0 font-recoleta">
-      <div className="relative w-full max-w-xl min-h-[620px] sm:h-[90vh] my-3 sm:my-5 rounded-3xl overflow-hidden shadow-2xl flex items-center justify-center">
+      <div className="relative w-full max-w-xl min-h-155 sm:h-[90vh] my-3 sm:my-5 rounded-3xl overflow-hidden shadow-2xl flex items-center justify-center">
         
         <div className="absolute inset-0 bg-linear-to-br from-[#7a7383]/60 via-[#1d1e25] to-[#31383a]" />
         
