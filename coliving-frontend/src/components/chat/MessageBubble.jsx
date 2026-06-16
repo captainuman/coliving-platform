@@ -5,9 +5,9 @@ export default function MessageBubble({ message, currentUserId }) {
   const isAI = message.sender === "ai";
 
   return (
-    <div className={`flex mb-3 ${isMine ? "justify-end" : "justify-start"}`}>
+    <div className={`flex mb-2 sm:mb-3 ${isMine ? "justify-end" : "justify-start"}`}>
       <div
-        className={`max-w-[70%] px-4 py-2 rounded-xl ${
+        className={`max-w-[85%] sm:max-w-[70%] px-3 sm:px-4 py-2 rounded-xl break-words ${
           isMine
             ? "bg-blue-600 text-white"
             : isAI
@@ -19,14 +19,18 @@ export default function MessageBubble({ message, currentUserId }) {
           <img
             src={message.image}
             alt="message"
-            className="rounded-xl mb-2 max-w-xs"
+            className="rounded-xl mb-2 max-w-full sm:max-w-xs"
           />
         )}
 
-        <p>{message.text}</p>
+        {message.text && (
+          <p className="text-sm sm:text-base whitespace-pre-wrap">
+            {message.text}
+          </p>
+        )}
 
         <span
-          className={`block text-[8px] mt-1 text-right ${
+          className={`block text-[9px] sm:text-[10px] mt-1 text-right ${
             isMine ? "text-blue-100" : "text-gray-500"
           }`}
         >

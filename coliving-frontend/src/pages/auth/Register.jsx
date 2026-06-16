@@ -104,7 +104,7 @@ export default function Register() {
       exit={{ x: -100, opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <main className="min-h-screen bg-linear-to-br from-black via-[#111827] to-[#1f2937] flex items-center justify-center px-3 sm:px-6 py-6 sm:py-10 font-recoleta">
+      <main className="min-h-screen bg-linear-to-br from-black via-[#111827] to-[#1f2937] flex items-center justify-center px-3 sm:px-6 py-6 sm:py-10 font-recoleta pb-10">
         <form
           onSubmit={handleRegister}
           className="relative w-full max-w-5xl max-h-[92vh] overflow-y-auto hide-scrollbar rounded-3xl shadow-2xl p-4 sm:p-6 md:p-10"

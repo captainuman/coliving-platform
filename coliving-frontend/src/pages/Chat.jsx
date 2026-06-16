@@ -72,71 +72,72 @@ export default function Chat() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <Navbar />
+  <div className="min-h-screen bg-gray-100 overflow-hidden">
+    <Navbar />
 
-      <div className="max-w-4xl mx-auto p-6">
-        <div className="bg-white rounded-3xl shadow-md p-6 h-[80vh] flex flex-col">
-          <h1 className="text-3xl font-bold mb-6">
-            Chat
-          </h1>
+    <div className="max-w-4xl mx-auto p-2 sm:p-4 md:p-6">
+      <div className="bg-white rounded-none sm:rounded-3xl shadow-md p-3 sm:p-5 md:p-6 h-[calc(100vh-75px)] sm:h-[82vh] flex flex-col">
+        
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4">
+          Chat
+        </h1>
 
-          <div className="flex-1 overflow-y-auto space-y-3 mb-4 pr-2">
-            {messages.map((msg, index) => {
-              const isCurrentUser =
-                (msg.sender?._id || msg.sender) === currentUser?._id;
+        <div className="flex-1 overflow-y-auto space-y-3 mb-4 pr-1 sm:pr-2">
+          {messages.map((msg, index) => {
+            const isCurrentUser =
+              (msg.sender?._id || msg.sender) === currentUser?._id;
 
-              return (
+            return (
+              <div
+                key={msg._id || index}
+                className={`flex ${
+                  isCurrentUser ? "justify-end" : "justify-start"
+                }`}
+              >
                 <div
-                  key={msg._id || index}
-                  className={`flex ${
-                    isCurrentUser ? "justify-end" : "justify-start"
+                  className={`p-3 rounded-2xl max-w-[85%] sm:max-w-[70%] break-words ${
+                    isCurrentUser
+                      ? "bg-black text-white"
+                      : "bg-gray-200 text-black"
                   }`}
                 >
-                  <div
-                    className={`p-3 rounded-2xl max-w-[70%] ${
-                      isCurrentUser
-                        ? "bg-black text-white"
-                        : "bg-gray-200 text-black"
-                    }`}
-                  >
-                    <p>{msg.text}</p>
+                  <p className="text-sm sm:text-base">{msg.text}</p>
 
-                    <p className="text-xs mt-2 opacity-70">
-                      {msg.createdAt
-                        ? new Date(msg.createdAt).toLocaleTimeString([], {
-                            hour: "2-digit",
-                            minute: "2-digit"
-                          })
-                        : ""}
-                    </p>
-                  </div>
+                  <p className="text-[10px] sm:text-xs mt-2 opacity-70">
+                    {msg.createdAt
+                      ? new Date(msg.createdAt).toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit"
+                        })
+                      : ""}
+                  </p>
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
+        </div>
 
-          <div className="flex gap-3">
-            <input
-              type="text"
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              placeholder="Type message..."
-              className="flex-1 border p-3 rounded-xl outline-none"
-              onKeyDown={(e) => {
-                if (e.key === "Enter") sendMessage();
-              }}
-            />
+        <div className="flex gap-2 sm:gap-3">
+          <input
+            type="text"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="Type message..."
+            className="flex-1 border p-3 text-sm sm:text-base rounded-xl outline-none min-w-0"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") sendMessage();
+            }}
+          />
 
-            <button
-              onClick={sendMessage}
-              className="bg-black hover:bg-gray-800 transition text-white px-6 rounded-xl"
-            >
-              Send
-            </button>
-          </div>
+          <button
+            onClick={sendMessage}
+            className="bg-black hover:bg-gray-800 transition text-white px-4 sm:px-6 rounded-xl text-sm sm:text-base"
+          >
+            Send
+          </button>
         </div>
       </div>
     </div>
-  );
+  </div>
+);
 }
