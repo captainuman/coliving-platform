@@ -390,7 +390,7 @@ export default function Profile() {
           </button>
         </aside>
 
-        <main className="rounded-2xl lg:rounded-3xl border border-gray-200 px-4 sm:px-6 md:px-16 py-6 md:py-14">
+        <main className="rounded-2xl lg:rounded-3xl border bg-white border-gray-200 px-4 sm:px-6 md:px-16 py-6 md:py-14">
           {activeMenu === "profile" && (
             <section>
               <div className="flex items-center gap-3 mb-10">
@@ -829,7 +829,9 @@ function MenuButton({ active, icon, title, text, onClick }) {
     <button
       onClick={onClick}
       className={`w-full flex items-center justify-between rounded-2xl px-5 py-5 bg-white ${
-        active ? "border-2 border-[#000b3f]" : "border border-gray-200"
+        active
+          ? "bg-blue-800 border border-blue-500"
+          : "bg-blue-950 border border-blue-900"
       }`}
     >
       <div className="flex items-center gap-5 text-left">
