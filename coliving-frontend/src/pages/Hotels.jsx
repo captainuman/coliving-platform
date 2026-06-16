@@ -178,7 +178,12 @@ export default function Hotels() {
 "
                 >
                   <div>
-                    <div className="flex justify-between lg:justify-end items-start gap-3 mb-4 lg:mb-10">
+                    <div className="flex  lg:justify-end items-start gap-3 mb-4 lg:mb-10">
+
+                      <span className="bg-blue-700 text-white px-3 py-2 rounded-md font-black text-[14px]">
+                        {property.property?.rating || 0}
+                      </span>
+
                       <div>
                         <h3 className="text-blue-700 font-medium text-[16px]">
                           {getRating(property.property?.rating)}
@@ -187,10 +192,6 @@ export default function Hotels() {
                           ({property.property?.reviewCount || 0} Ratings)
                         </p>
                       </div>
-
-                      <span className="bg-blue-700 text-white px-3 py-2 rounded-md font-black text-[14px]">
-                        {property.property?.rating || 0}
-                      </span>
                     </div>
 
                     <h2 className="text-[20px] lg:text-[22px] font-black">
