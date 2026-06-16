@@ -130,7 +130,7 @@ export default function Rooms() {
   }
 
   return (
-    <div className="min-h-screen font-poppins">
+    <div className="min-h-screen font-poppins pb-10">
       <Navbar />
 
       <div className="bg-white rounded-xl shadow px-2 py-2 mb-6 m-5">
@@ -160,8 +160,8 @@ export default function Rooms() {
                 {averageRating || 0}
               </div>
             </div>
-            
-            <div className="hidden lg:flex items-center gap-3 px-5">
+          </div>
+          <div className="hidden lg:flex items-center gap-3 px-5">
               <div className="flex flex-col">
                 <span className="text-[14px] font-medium">
                   {getRatingLabel(Number(averageRating))}
@@ -176,7 +176,6 @@ export default function Rooms() {
                 {averageRating || 0}
               </div>
             </div>
-          </div>
         </div>
 
         <div className="grid lg:grid-cols-14 gap-4 mt-3">
