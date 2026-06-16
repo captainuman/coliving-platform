@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import Navbar from "../Navbar";
 
@@ -10,6 +11,8 @@ import {
   Star,
   MessageSquare,
   Table,
+  Menu,
+  X,
 } from "lucide-react";
 
 const links = [
@@ -24,21 +27,40 @@ const links = [
 ];
 
 const AdminLayout = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-muted/30 dark:bg-black">
-      
-      {/* Main App Navbar */}
       <Navbar />
 
-      <div className="flex">
-        
+      <div className="flex relative">
+        {/* Mobile Overlay */}
+        {sidebarOpen && (
+          <div
+            onClick={() => setSidebarOpen(false)}
+            className="fixed inset-0 bg-black/40 z-30 lg:hidden"
+          />
+        )}
+
         {/* Sidebar */}
-        <aside className="w-64 shrink-0 border-r bg-background p-4 min-h-[calc(100vh-64px)]">
-          <div className="mb-6">
-            <h1 className="text-xl font-bold">Admin Panel</h1>
-            <p className="text-xs text-muted-foreground">
-              Analytics Dashboard
-            </p>
+        <aside
+          className={`fixed lg:static top-0 left-0 z-40 w-64 shrink-0 border-r bg-background p-4 min-h-screen lg:min-h-[calc(100vh-64px)] transition-transform duration-300
+          ${sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
+        >
+          <div className="mb-6 flex items-start justify-between">
+            <div>
+              <h1 className="text-xl font-bold">Admin Panel</h1>
+              <p className="text-xs text-muted-foreground">
+                Analytics Dashboard
+              </p>
+            </div>
+
+            <button
+              onClick={() => setSidebarOpen(false)}
+              className="lg:hidden"
+            >
+              <X size={22} />
+            </button>
           </div>
 
           <nav className="space-y-2">
@@ -50,6 +72,7 @@ const AdminLayout = () => {
                   key={link.to}
                   to={link.to}
                   end={link.to === "/admin/analytics"}
+                  onClick={() => setSidebarOpen(false)}
                   className={({ isActive }) =>
                     `flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition ${
                       isActive
@@ -67,7 +90,16 @@ const AdminLayout = () => {
         </aside>
 
         {/* Content */}
-        <main className="flex-1 p-6">
+        <main className="flex-1 p-3 sm:p-6 min-w-0">
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="lg:hidden mb-4 flex items-center gap-2 rounded-lg bg-white border px-3 py-2 text-sm"
+          >
+            <Menu size={20} />
+            Menu
+          </button>
+
           <Outlet />
         </main>
       </div>

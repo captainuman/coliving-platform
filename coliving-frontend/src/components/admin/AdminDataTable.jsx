@@ -15,7 +15,7 @@ const AdminDataTable = ({
   searchableFields = [],
   pageSize = 10,
 }) => {
-  const safeData = Array.isArray(data) ? data : []; 
+  const safeData = Array.isArray(data) ? data : [];
   const [search, setSearch] = useState("");
   const [sortConfig, setSortConfig] = useState({
     key: null,
@@ -24,17 +24,17 @@ const AdminDataTable = ({
   const [page, setPage] = useState(1);
 
   const filteredData = useMemo(() => {
-  if (!search.trim()) return safeData;
+    if (!search.trim()) return safeData;
 
-  return safeData.filter((item) => {
-    return searchableFields.some((field) => {
-      const value = getNestedValue(item, field);
-      return String(value || "")
-        .toLowerCase()
-        .includes(search.toLowerCase());
-    });
-  });
-}, [safeData, search, searchableFields]);
+    return safeData.filter((item) =>
+      searchableFields.some((field) => {
+        const value = getNestedValue(item, field);
+        return String(value || "")
+          .toLowerCase()
+          .includes(search.toLowerCase());
+      })
+    );
+  }, [safeData, search, searchableFields]);
 
   const sortedData = useMemo(() => {
     if (!sortConfig.key) return filteredData;
@@ -61,9 +61,7 @@ const AdminDataTable = ({
     setSortConfig((current) => ({
       key,
       direction:
-        current.key === key && current.direction === "asc"
-          ? "desc"
-          : "asc",
+        current.key === key && current.direction === "asc" ? "desc" : "asc",
     }));
   };
 
@@ -96,12 +94,14 @@ const AdminDataTable = ({
   };
 
   return (
-    <Card className="mt-8">
+    <Card className="mt-6 sm:mt-8 w-full overflow-hidden">
       <CardHeader className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <CardTitle>{title}</CardTitle>
+        <CardTitle className="text-xl sm:text-2xl">
+          {title}
+        </CardTitle>
 
-        <div className="flex flex-col gap-3 sm:flex-row">
-          <div className="relative">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="relative w-full sm:w-auto">
             <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
 
             <input
@@ -111,13 +111,13 @@ const AdminDataTable = ({
                 setPage(1);
               }}
               placeholder="Search..."
-              className="h-9 rounded-md border bg-background pl-9 pr-3 text-sm outline-none"
+              className="h-9 w-full sm:w-64 rounded-md border bg-background pl-9 pr-3 text-sm outline-none"
             />
           </div>
 
           <button
             onClick={exportCsv}
-            className="inline-flex h-9 items-center justify-center gap-2 rounded-md border px-3 text-sm"
+            className="inline-flex h-9 w-full sm:w-auto items-center justify-center gap-2 rounded-md border px-3 text-sm"
           >
             <Download size={16} />
             Export
@@ -125,7 +125,7 @@ const AdminDataTable = ({
         </div>
       </CardHeader>
 
-      <CardContent>
+      <CardContent className="px-3 sm:px-6">
         <div className="overflow-x-auto rounded-md border">
           <table className="w-full min-w-[800px] text-sm">
             <thead className="bg-muted/60">
@@ -133,8 +133,10 @@ const AdminDataTable = ({
                 {columns.map((col) => (
                   <th
                     key={col.key}
-                    onClick={() => col.sortable !== false && handleSort(col.key)}
-                    className="cursor-pointer px-4 py-3 text-left font-medium"
+                    onClick={() =>
+                      col.sortable !== false && handleSort(col.key)
+                    }
+                    className="cursor-pointer whitespace-nowrap px-4 py-3 text-left font-medium"
                   >
                     {col.label}
                     {sortConfig.key === col.key && (
@@ -152,7 +154,10 @@ const AdminDataTable = ({
                 paginatedData.map((row, rowIndex) => (
                   <tr key={row._id || rowIndex} className="border-t">
                     {columns.map((col) => (
-                      <td key={col.key} className="px-4 py-3">
+                      <td
+                        key={col.key}
+                        className="whitespace-nowrap px-4 py-3"
+                      >
                         {col.render
                           ? col.render(row)
                           : getNestedValue(row, col.key) || "-"}
@@ -175,11 +180,11 @@ const AdminDataTable = ({
         </div>
 
         <div className="mt-4 flex flex-col items-center justify-between gap-3 sm:flex-row">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-center text-sm text-muted-foreground sm:text-left">
             Showing {paginatedData.length} of {sortedData.length} records
           </p>
 
-          <div className="flex items-center gap-2">
+          <div className="flex w-full items-center justify-between gap-2 sm:w-auto sm:justify-normal">
             <button
               disabled={page === 1}
               onClick={() => setPage((p) => p - 1)}
@@ -188,7 +193,7 @@ const AdminDataTable = ({
               Previous
             </button>
 
-            <span className="text-sm">
+            <span className="whitespace-nowrap text-sm">
               Page {page} of {totalPages}
             </span>
 
