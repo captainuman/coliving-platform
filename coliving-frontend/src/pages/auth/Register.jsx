@@ -39,7 +39,7 @@ export default function Register() {
     });
   };
 
- const handleSendOtp = async () => {
+const handleSendOtp = async () => {
   if (!form.email) {
     return toast.error("Enter email first");
   }
@@ -48,20 +48,17 @@ export default function Register() {
     setOtpLoading(true);
 
     const res = await API.post("/auth/send-otp", {
-      email: form.email,
+      email: form.email
     });
 
-    setOtpSent(true); // ADD THIS
+    setOtpSent(true);
 
-    toast.success(
-      res.data?.message || "OTP sent successfully"
-    );
+    toast.success(res.data?.message || "OTP sent successfully");
   } catch (err) {
-    console.log(err);
+    console.log("SEND OTP ERROR:", err.response?.data || err);
 
     toast.error(
-      err.response?.data?.message ||
-      "Failed to send OTP"
+      err.response?.data?.message || "Failed to send OTP"
     );
   } finally {
     setOtpLoading(false);

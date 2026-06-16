@@ -42,9 +42,12 @@ exports.sendOtp = async (req, res) => {
 
     res.json({ message: "OTP sent successfully" });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Failed to send OTP" });
-  }
+  console.error("SEND OTP ERROR:", err);
+
+  return res.status(500).json({
+    message: "Email service timeout. Please try again later."
+  });
+}
 };
 
 // REGISTER
