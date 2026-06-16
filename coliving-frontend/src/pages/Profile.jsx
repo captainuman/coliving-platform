@@ -12,6 +12,7 @@ export default function Profile() {
   const [activeMenu, setActiveMenu] = useState("profile");
   const [securityMode, setSecurityMode] = useState("");
   const [feedback, setFeedback] = useState("");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const [profilePic, setProfilePic] = useState(null);
   const [preview, setPreview] = useState("");
@@ -29,7 +30,7 @@ export default function Profile() {
     city: "",
     zipCode: "",
     currency: "",
-    language: ""
+    language: "",
   });
 
   const [reviews, setReviews] = useState([]);
@@ -37,7 +38,7 @@ export default function Profile() {
   const [securityForm, setSecurityForm] = useState({
     email: "",
     currentPassword: "",
-    newPassword: ""
+    newPassword: "",
   });
 
   useEffect(() => {
@@ -45,26 +46,24 @@ export default function Profile() {
     fetchReviews();
   }, []);
 
+  const fetchReviews = async () => {
+    try {
+      const res = await API.get("/reviews/my-reviews");
+      setReviews(res.data);
+    } catch (err) {
+      console.log("Reviews route not found:", err.response?.status);
+      setReviews([]);
+    }
+  };
 
-const fetchReviews = async () => {
-  try {
-    const res = await API.get("/reviews/my-reviews");
-    setReviews(res.data);
-  } catch (err) {
-    console.log("Reviews route not found:", err.response?.status);
-    setReviews([]);
-  }
-};
-
-
-const BACKEND_URL =
-  import.meta.env.VITE_API_URL?.replace("/api", "") ||
-  "https://coliving-backend.onrender.com";
+  const BACKEND_URL =
+    import.meta.env.VITE_API_URL?.replace("/api", "") ||
+    "https://coliving-backend.onrender.com";
 
   const fetchProfile = async () => {
     try {
       const res = await API.get("/users/me");
-      console.log("Profile pic:", res.data.profilePic); 
+      console.log("Profile pic:", res.data.profilePic);
 
       setUser(res.data);
       setPreview(res.data.profilePic || "");
@@ -72,15 +71,13 @@ const BACKEND_URL =
       setSecurityForm({
         email: res.data.email || "",
         currentPassword: "",
-        newPassword: ""
+        newPassword: "",
       });
 
       setForm({
         name: res.data.name || "",
         mobile: res.data.mobile || "",
-        dob: res.data.dob
-        ? res.data.dob.split("T")[0]
-        : "",
+        dob: res.data.dob ? res.data.dob.split("T")[0] : "",
         gender: res.data.gender || "",
         smoking: res.data.smoking || "",
         sleep: res.data.sleep || "",
@@ -90,7 +87,7 @@ const BACKEND_URL =
         city: res.data.city || "",
         zipCode: res.data.zipCode || "",
         currency: res.data.currency || "",
-        language: res.data.language || ""
+        language: res.data.language || "",
       });
     } catch (err) {
       console.log(err);
@@ -110,7 +107,6 @@ const BACKEND_URL =
     setActiveMenu(menu);
   };
 
-
   const handleEdit = () => {
     setEditing(true);
 
@@ -120,7 +116,7 @@ const BACKEND_URL =
       if (section) {
         section.scrollIntoView({
           behavior: "smooth",
-          block: "start"
+          block: "start",
         });
       }
     }, 100);
@@ -129,14 +125,14 @@ const BACKEND_URL =
   const handleChange = (e) => {
     setForm({
       ...form,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSecurityChange = (e) => {
     setSecurityForm({
       ...securityForm,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -150,14 +146,14 @@ const BACKEND_URL =
         formData.append(key, form[key]);
       });
 
-     if (profilePic) {
+      if (profilePic) {
         formData.append("profilePic", profilePic);
       }
 
       await API.put("/users/me", formData, {
         headers: {
-          "Content-Type": "multipart/form-data"
-        }
+          "Content-Type": "multipart/form-data",
+        },
       });
 
       toast.success("Profile updated");
@@ -165,10 +161,7 @@ const BACKEND_URL =
       fetchProfile();
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (err) {
-      console.log(
-        "PROFILE UPDATE ERROR:",
-        err.response?.data || err
-      );
+      console.log("PROFILE UPDATE ERROR:", err.response?.data || err);
       toast.error("Update failed");
     }
   };
@@ -179,7 +172,7 @@ const BACKEND_URL =
     try {
       await API.put("/users/me/email", {
         email: securityForm.email,
-        password: securityForm.currentPassword
+        password: securityForm.currentPassword,
       });
 
       toast.success("Email updated");
@@ -196,7 +189,7 @@ const BACKEND_URL =
     try {
       await API.put("/users/me/password", {
         currentPassword: securityForm.currentPassword,
-        newPassword: securityForm.newPassword
+        newPassword: securityForm.newPassword,
       });
 
       toast.success("Password updated");
@@ -206,7 +199,7 @@ const BACKEND_URL =
       setSecurityForm({
         ...securityForm,
         currentPassword: "",
-        newPassword: ""
+        newPassword: "",
       });
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to update password");
@@ -218,7 +211,7 @@ const BACKEND_URL =
 
     try {
       await API.post("/feedback", {
-        message: feedback
+        message: feedback,
       });
 
       toast.success("Feedback sent");
@@ -246,41 +239,9 @@ const BACKEND_URL =
     return <p className="p-10 text-center">Loading...</p>;
   }
 
-
-  function MenuButton({ active, icon, title, text, onClick }) {
-  return (
-    <button
-      onClick={onClick}
-      className={`w-full flex items-center justify-between rounded-2xl px-2 py-2 bg-blue-950 transition text-left ${
-        active
-          ? "border-2 border-[#000b3f] shadow-sm"
-          : "border border-gray-200 hover:border-[#000b3f]"
-      }`}
-    >
-      <div className="flex items-center gap-5">
-        <span className="text-2xl w-8 flex justify-center">
-          {icon}
-        </span>
-
-        <div>
-          <h3 className="text-lg font-bold text-white]">
-            {title}
-          </h3>
-
-          <p className="text-sm text-white/80">
-            {text}
-          </p>
-        </div>
-      </div>
-
-      <span className="text-3xl font-light">›</span>
-    </button>
-  );
-}
-
-const handleDeleteAccount = async () => {
+  const handleDeleteAccount = async () => {
     const confirmed = window.confirm(
-      "Are you sure? This will permanently delete your account."
+      "Are you sure? This will permanently delete your account.",
     );
 
     if (!confirmed) return;
@@ -295,18 +256,99 @@ const handleDeleteAccount = async () => {
 
       navigate("/");
     } catch (err) {
-      toast.error(
-        err.response?.data?.message || "Failed to delete account"
-      );
+      toast.error(err.response?.data?.message || "Failed to delete account");
     }
-    };
+  };
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       <Navbar />
 
-      <div className="grid lg:grid-cols-[330px_1fr] gap-8 px-5 md:px-15 py-8">
-        <aside className="space-y-5">
+      <div className="grid lg:grid-cols-[330px_1fr] gap-8 px-4 md:px-15 py-5 lg:py-8">
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => setMobileMenuOpen(true)}
+          className="lg:hidden bg-blue-950 text-white px-4 py-3 rounded-xl font-semibold w-fit mb-4"
+        >
+          ☰ Menu
+        </button>
+
+        {/* Mobile Sidebar Overlay */}
+        {mobileMenuOpen && (
+          <div className="fixed inset-0 z-50 lg:hidden">
+            <div
+              onClick={() => setMobileMenuOpen(false)}
+              className="absolute inset-0 bg-black/50"
+            />
+
+            <aside className="absolute left-0 top-0 h-full w-[280px] bg-gray-900 p-4 space-y-3 overflow-y-auto">
+              <div className="flex justify-between items-start mb-4">
+                <div>
+                  <h1 className="text-[20px] font-bold">Hi, {user.name}</h1>
+                  <p className="text-[12px] text-white/80">{user.email}</p>
+                </div>
+
+                <button
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-2xl"
+                >
+                  ×
+                </button>
+              </div>
+
+              <MenuButton
+                active={activeMenu === "profile"}
+                icon="♙"
+                title="Profile"
+                text="Personal details"
+                onClick={() => {
+                  handleMenuClick("profile");
+                  setMobileMenuOpen(false);
+                }}
+              />
+              <MenuButton
+                active={activeMenu === "reviews"}
+                icon="▢"
+                title="Reviews"
+                text="Your reviews"
+                onClick={() => {
+                  handleMenuClick("reviews");
+                  setMobileMenuOpen(false);
+                }}
+              />
+              <MenuButton
+                active={activeMenu === "security"}
+                icon="⚙"
+                title="Security"
+                text="Email or password"
+                onClick={() => {
+                  handleMenuClick("security");
+                  setMobileMenuOpen(false);
+                }}
+              />
+              <MenuButton
+                active={activeMenu === "help"}
+                icon="💬"
+                title="Help"
+                text="Support"
+                onClick={() => {
+                  handleMenuClick("help");
+                  setMobileMenuOpen(false);
+                }}
+              />
+
+              <button
+                onClick={handleLogout}
+                className="w-full rounded-2xl border border-red-200 text-red-500 px-4 py-3 font-bold"
+              >
+                Signout
+              </button>
+            </aside>
+          </div>
+        )}
+
+        {/* Desktop Sidebar - same as before */}
+        <aside className="hidden lg:block space-y-5">
           <div className="px-4">
             <h1 className="text-[28px] font-bold">Hi, {user.name}</h1>
             <p className="text-[14px] font-normal mt-1">{user.email}</p>
@@ -350,13 +392,12 @@ const handleDeleteAccount = async () => {
           </button>
         </aside>
 
-        <main className="rounded-3xl border border-gray-200 px-6 md:px-16 py-10 md:py-14">
+        <main className="rounded-2xl lg:rounded-3xl border border-gray-200 px-4 sm:px-6 md:px-16 py-6 md:py-14">  
           {activeMenu === "profile" && (
-          <section>
-
-            <div className="flex items-center gap-3 mb-10">
-             <img
-                src={
+            <section>
+              <div className="flex items-center gap-3 mb-10">
+                <img
+                  src={
                     preview
                       ? preview.startsWith("blob:")
                         ? preview
@@ -365,44 +406,41 @@ const handleDeleteAccount = async () => {
                         : `${BACKEND_URL}/uploads/${preview}`
                       : "/default-avatar.png"
                   }
-                alt="Profile preview"
-                className="w-20 h-20 rounded-full object-cover border"
-              />
+                  alt="Profile preview"
+                  className="w-14 h-14 lg:w-20 lg:h-20 rounded-full object-cover border"
+                />
+
+                <div>
+                  <h1 className="text-[22px] lg:text-[28px] font-serif font-medium leading-7 lg:leading-8.5">
+                    {user.name}
+                  </h1>
+
+                  <p className="text-[14px]">{user.email}</p>
+                </div>
+              </div>
 
               <div>
-                <h1 className="text-[28px] font-serif font-medium leading-8.5">
-                  {user.name}
-                </h1>
+                <div className="flex justify-between items-start mb-5">
+                  <div>
+                    <h2 className="text-[22px] lg:text-[28px] font-serif font-medium">
+                      Basic information
+                    </h2>
 
-                <p className="text-[14px]">
-                  {user.email}
-                </p>
-              </div>
-            </div>
-            
+                    <p className="text-[14px]">
+                      Make sure this information matches your travel ID, like
+                      your passport or licence.
+                    </p>
+                  </div>
 
-            <div>
-              <div className="flex justify-between items-start mb-5">
-                <div>
-                  <h2 className="text-[28px] font-serif font-medium leading-8.5">
-                    Basic information
-                  </h2>
-
-                  <p className="text-[14px]">
-                    Make sure this information matches your travel ID, like your
-                    passport or licence.
-                  </p>
+                  <button onClick={handleEdit} className="font-bold text-lg">
+                    Edit
+                  </button>
                 </div>
 
-                <button onClick={handleEdit} className="font-bold text-lg">
-                  Edit
-                </button>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-x-32 gap-y-2 text-[14px] mt-2 leading-5">
-                <Info label="Name" value={value(user.name)} />
-                <Info label="Bio" value="Not provided" />
-                <Info
+                <div className="grid md:grid-cols-2 gap-x-32 gap-y-2 text-[14px] mt-2 leading-5">
+                  <Info label="Name" value={value(user.name)} />
+                  <Info label="Bio" value="Not provided" />
+                  <Info
                     label="Date of birth"
                     value={
                       user.dob
@@ -410,259 +448,247 @@ const handleDeleteAccount = async () => {
                         : "Not provided"
                     }
                   />
-                <Info label="Gender" value={value(user.gender)} />
-                <Info label="Accessibility needs" value="Not provided" />
+                  <Info label="Gender" value={value(user.gender)} />
+                  <Info label="Accessibility needs" value="Not provided" />
+                </div>
               </div>
-            </div>
 
-            <div className="mt-20">
-              <div className="flex justify-between items-start mb-5">
-                <div>
-                  <h2 className="text-[28px] font-medium leading-8.5 font-serif">
-                    Contact
-                  </h2>
+              <div className="mt-12 lg:mt-20">
+                <div className="flex justify-between items-start mb-5">
+                  <div>
+                    <h2 className="text-[22px] lg:text-[28px] font-serif font-medium">
+                      Contact
+                    </h2>
 
-                  <p className="text-[14px]">
-                    Receive account activity alerts and trip updates by sharing
-                    this information.
-                  </p>
+                    <p className="text-[14px]">
+                      Receive account activity alerts and trip updates by
+                      sharing this information.
+                    </p>
+                  </div>
                 </div>
 
-                <button onClick={handleEdit} className="font-bold text-lg">
-                  Edit
-                </button>
+                <div className="grid md:grid-cols-2 gap-x-32 gap-y-2 text-[14px] mt-2 leading-5">
+                  <Info label="Mobile number" value={value(user.mobile)} />
+                  <Info label="Email" value={value(user.email)} />
+                  <Info label="Emergency contact" value="Not provided" />
+                  <Info label="Address" value={address} />
+                </div>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-x-32 gap-y-2 text-[14px] mt-2 leading-5">
-                <Info label="Mobile number" value={value(user.mobile)} />
-                <Info label="Email" value={value(user.email)} />
-                <Info label="Emergency contact" value="Not provided" />
-                <Info label="Address" value={address} />
-              </div>
-            </div>
+              <div className="mt-12 lg:mt-20">
+                <div className="flex justify-between items-start">
+                  <h2 className="text-[22px] lg:text-[28px] font-serif font-medium">
+                    Preferences
+                  </h2>
+                </div>
 
-            <div className="mt-20">
-              <div className="flex justify-between items-start">
-                <h2 className="text-[28px] font-medium leading-8.5 font-serif">
-                  Preferences
-                </h2>
-
-                <button onClick={handleEdit} className="font-bold text-lg">
-                  Edit
-                </button>
+                <div className="grid md:grid-cols-2 gap-x-32 gap-y-2 text-[14px] mt-2 leading-5">
+                  <Info label="Smoking" value={value(user.smoking)} />
+                  <Info label="Sleep habit" value={value(user.sleep)} />
+                  <Info label="Food preference" value={value(user.food)} />
+                  <Info label="Cleanliness" value={value(user.cleanliness)} />
+                  <Info label="Currency" value={value(user.currency)} />
+                  <Info label="Language" value={value(user.language)} />
+                </div>
               </div>
-
-              <div className="grid md:grid-cols-2 gap-x-32 gap-y-2 text-[14px] mt-2 leading-5">
-                <Info label="Smoking" value={value(user.smoking)} />
-                <Info label="Sleep habit" value={value(user.sleep)} />
-                <Info label="Food preference" value={value(user.food)} />
-                <Info label="Cleanliness" value={value(user.cleanliness)} />
-                <Info label="Currency" value={value(user.currency)} />
-                <Info label="Language" value={value(user.language)} />
-              </div>
-            </div>
-          </section>
-)}
+            </section>
+          )}
 
           {activeMenu === "reviews" && (
-  <section>
-    <h2 className="text-[28px] font-medium font-serif">
-      Reviews
-    </h2>
+            <section>
+              <h2 className="text-[22px] lg:text-[28px] font-serif font-medium">
+                Reviews
+              </h2>
 
-    {reviews.length === 0 ? (
-      <div className="mt-8 rounded-2xl border border-gray-200 p-6">
-        <h3 className="text-xl font-bold">
-          No reviews yet
-        </h3>
+              {reviews.length === 0 ? (
+                <div className="mt-8 rounded-2xl border border-gray-200 p-6">
+                  <h3 className="text-xl font-bold">No reviews yet</h3>
 
-        <p className="mt-2">
-          After you complete a booking, your reviews will appear here.
-        </p>
-      </div>
-    ) : (
-      <div className="mt-8 space-y-4">
-        {reviews.map((review) => (
-          <div
-            key={review._id}
-            className="border rounded-2xl p-5"
-          >
-            <p className="font-bold">
-              ⭐ {review.rating}/5
-            </p>
+                  <p className="mt-2">
+                    After you complete a booking, your reviews will appear here.
+                  </p>
+                </div>
+              ) : (
+                <div className="mt-8 space-y-4">
+                  {reviews.map((review) => (
+                    <div key={review._id} className="border rounded-2xl p-5">
+                      <p className="font-bold">⭐ {review.rating}/5</p>
 
-            <p className="mt-2">
-              {review.comment}
-            </p>
-          </div>
-        ))}
-      </div>
-    )}
-  </section>
-)}
+                      <p className="mt-2">{review.comment}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </section>
+          )}
 
           {activeMenu === "security" && (
-          <section>
+            <section>
+              <h2 className="text-[22px] lg:text-[28px] font-serif font-medium leading-8">
+                Sign-in and security
+              </h2>
 
-            <h2 className="text-[28px] font-serif font-medium leading-8">
-              Sign-in and security
-            </h2>
+              <p className="text-[13px]">
+                Keep your account safe with a secure password and by signing out
+                of devices you're not actively using.
+              </p>
 
-            <p className="text-[13px]">
-              Keep your account safe with a secure password and by signing out
-              of devices you're not actively using.
-            </p>
-
-            <div className="mt-10 space-y-3 max-w-70">
-              <SecurityCard
-                title="Update Email"
-                onClick={() => setSecurityMode("email")}
-              />
-
-              <SecurityCard
-                title="Change password"
-                onClick={() => setSecurityMode("password")}
-              />
-
-            </div>
-
-            <div>
-               <h2 className="text-[28px] font-serif font-medium leading-8 mt-10">Account management</h2>
-
-              <p className="text-[15px] font-normal mb-10">Control other options to manage your data, like deleting your account.</p>
-
-              <button
-                onClick={handleDeleteAccount}
-                className="text-[15px] underline text-red-600 hover:text-red-800"
-              >
-                Delete account
-              </button>
-              <h2 className="text-[15px]">Permanently delete your account and data.</h2>
-            </div>
-
-            {securityMode === "email" && (
-              <form
-                onSubmit={handleUpdateEmail}
-                className="mt-8 max-w-xl rounded-2xl border border-gray-200 p-6 space-y-4"
-              >
-                <h3 className="text-xl font-bold">Update email</h3>
-
-                <input
-                  type="email"
-                  name="email"
-                  value={securityForm.email}
-                  onChange={handleSecurityChange}
-                  className="w-full border border-gray-300 p-4 rounded-2xl outline-none focus:border-[#000b3f]"
-                  required
+              <div className="mt-10 space-y-3 max-w-70">
+                <SecurityCard
+                  title="Update Email"
+                  onClick={() => setSecurityMode("email")}
                 />
 
-                <input
-                  type="password"
-                  name="currentPassword"
-                  value={securityForm.currentPassword}
-                  onChange={handleSecurityChange}
-                  className="w-full border border-gray-300 p-4 rounded-2xl outline-none focus:border-[#000b3f]"
-                  placeholder="Confirm password"
-                  required
+                <SecurityCard
+                  title="Change password"
+                  onClick={() => setSecurityMode("password")}
                 />
+              </div>
 
-                <div className="flex gap-3">
-                  <button
-                    type="submit"
-                    className="rounded-full bg-[#000b3f] text-white px-7 py-3 font-bold"
-                  >
-                    Save email
-                  </button>
+              <div>
+                <h2 className="text-[22px] lg:text-[28px] font-serif font-medium leading-8">
+                  Account management
+                </h2>
 
-                  <button
-                    type="button"
-                    onClick={() => setSecurityMode("")}
-                    className="rounded-full border px-7 py-3 font-bold"
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </form>
-            )}
+                <p className="text-[15px] font-normal mb-10">
+                  Control other options to manage your data, like deleting your
+                  account.
+                </p>
 
-            {securityMode === "password" && (
-              <form
-                onSubmit={handleUpdatePassword}
-                className="mt-8 max-w-xl rounded-2xl border border-gray-200 p-6 space-y-4"
-              >
-                <h3 className="text-xl font-bold">Change password</h3>
+                <button
+                  onClick={handleDeleteAccount}
+                  className="text-[15px] underline text-red-600 hover:text-red-800"
+                >
+                  Delete account
+                </button>
+                <h2 className="text-[15px]">
+                  Permanently delete your account and data.
+                </h2>
+              </div>
 
-                <input
-                  type="password"
-                  name="currentPassword"
-                  value={securityForm.currentPassword}
-                  onChange={handleSecurityChange}
-                  className="w-full border border-gray-300 p-4 rounded-2xl outline-none focus:border-[#000b3f]"
-                  placeholder="Current password"
-                  required
-                />
+              {securityMode === "email" && (
+                <form
+                  onSubmit={handleUpdateEmail}
+                  className="mt-8 max-w-xl rounded-2xl border border-gray-200 p-6 space-y-4"
+                >
+                  <h3 className="text-xl font-bold">Update email</h3>
 
-                <input
-                  type="password"
-                  name="newPassword"
-                  value={securityForm.newPassword}
-                  onChange={handleSecurityChange}
-                  className="w-full border border-gray-300 p-4 rounded-2xl outline-none focus:border-[#000b3f]"
-                  placeholder="New password"
-                  required
-                />
+                  <input
+                    type="email"
+                    name="email"
+                    value={securityForm.email}
+                    onChange={handleSecurityChange}
+                    className="w-full border border-gray-300 p-4 rounded-2xl outline-none focus:border-[#000b3f]"
+                    required
+                  />
 
-                <div className="flex gap-3">
-                  <button
-                    type="submit"
-                    className="rounded-full bg-[#000b3f] text-white px-7 py-3 font-bold"
-                  >
-                    Save password
-                  </button>
+                  <input
+                    type="password"
+                    name="currentPassword"
+                    value={securityForm.currentPassword}
+                    onChange={handleSecurityChange}
+                    className="w-full border border-gray-300 p-4 rounded-2xl outline-none focus:border-[#000b3f]"
+                    placeholder="Confirm password"
+                    required
+                  />
 
-                  <button
-                    type="button"
-                    onClick={() => setSecurityMode("")}
-                    className="rounded-full border px-7 py-3 font-bold"
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </form>
-            )}
-         </section>
-)}
+                  <div className="flex gap-3">
+                    <button
+                      type="submit"
+                      className="rounded-full bg-[#000b3f] text-white px-7 py-3 font-bold"
+                    >
+                      Save email
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setSecurityMode("")}
+                      className="rounded-full border px-7 py-3 font-bold"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              )}
+
+              {securityMode === "password" && (
+                <form
+                  onSubmit={handleUpdatePassword}
+                  className="mt-8 max-w-xl rounded-2xl border border-gray-200 p-6 space-y-4"
+                >
+                  <h3 className="text-xl font-bold">Change password</h3>
+
+                  <input
+                    type="password"
+                    name="currentPassword"
+                    value={securityForm.currentPassword}
+                    onChange={handleSecurityChange}
+                    className="w-full border border-gray-300 p-4 rounded-2xl outline-none focus:border-[#000b3f]"
+                    placeholder="Current password"
+                    required
+                  />
+
+                  <input
+                    type="password"
+                    name="newPassword"
+                    value={securityForm.newPassword}
+                    onChange={handleSecurityChange}
+                    className="w-full border border-gray-300 p-4 rounded-2xl outline-none focus:border-[#000b3f]"
+                    placeholder="New password"
+                    required
+                  />
+
+                  <div className="flex gap-3">
+                    <button
+                      type="submit"
+                      className="rounded-full bg-[#000b3f] text-white px-7 py-3 font-bold"
+                    >
+                      Save password
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setSecurityMode("")}
+                      className="rounded-full border px-7 py-3 font-bold"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              )}
+            </section>
+          )}
           {activeMenu === "help" && (
-          <section>
-            <h2 className="text-[32px] font-serif font-medium">
-              Help and feedback
-            </h2>
+            <section>
+              <h2 className="text-[22px] lg:text-[28px] font-serif font-medium leading-8">
+                Help and feedback
+              </h2>
 
-            <p className="text-[15px] mt-2">
-              Send feedback or ask for support.
-            </p>
+              <p className="text-[15px] mt-2">
+                Send feedback or ask for support.
+              </p>
 
-            <form
-              onSubmit={handleFeedbackSubmit}
-              className="mt-8 rounded-2xl border border-gray-200 p-6 space-y-4 max-w-xl"
-            >
-              <textarea
-                value={feedback}
-                onChange={(e) => setFeedback(e.target.value)}
-                className="w-full border border-gray-300 p-4 rounded-2xl outline-none focus:border-[#000b3f] min-h-36"
-                placeholder="Write your feedback..."
-                required
-              />
-
-              <button
-                type="submit"
-                className="rounded-full bg-[#000b3f] text-white px-7 py-3 font-bold"
+              <form
+                onSubmit={handleFeedbackSubmit}
+                className="mt-8 rounded-2xl border border-gray-200 p-6 space-y-4 max-w-xl"
               >
-                Send feedback
-              </button>
-            </form>
-          </section>
-)}
+                <textarea
+                  value={feedback}
+                  onChange={(e) => setFeedback(e.target.value)}
+                  className="w-full border border-gray-300 p-4 rounded-2xl outline-none focus:border-[#000b3f] min-h-36"
+                  placeholder="Write your feedback..."
+                  required
+                />
+
+                <button
+                  type="submit"
+                  className="rounded-full bg-[#000b3f] text-white px-7 py-3 font-bold"
+                >
+                  Send feedback
+                </button>
+              </form>
+            </section>
+          )}
 
           {editing && (
             <form
@@ -671,9 +697,7 @@ const handleDeleteAccount = async () => {
               className="mt-20 rounded-3xl border border-gray-200 p-8 space-y-8"
             >
               <div className="flex justify-between items-center">
-                <h2 className="text-3xl font-serif font-bold">
-                  Edit profile
-                </h2>
+                <h2 className="text-3xl font-serif font-bold">Edit profile</h2>
 
                 <button
                   type="button"
@@ -728,7 +752,6 @@ const handleDeleteAccount = async () => {
                   onChange={handleChange}
                   placeholder="Sleep Habit"
                   options={["early", "late"]}
-
                 />
 
                 <Select
@@ -808,20 +831,27 @@ function MenuButton({ active, icon, title, text, onClick }) {
   return (
     <button
       onClick={onClick}
-      className={`w-full flex items-center justify-between rounded-2xl px-5 py-5 bg-white ${
+      className={`w-full flex items-center justify-between rounded-2xl px-3 py-3 lg:px-5 lg:py-5 bg-blue-950 lg:bg-white ${
         active ? "border-2 border-[#000b3f]" : "border border-gray-200"
       }`}
     >
-      <div className="flex items-center gap-5 text-left">
-        <span className="text-3xl">{icon}</span>
+      <div className="flex items-center gap-3 lg:gap-5 text-left">
+        <span className="text-xl lg:text-3xl">{icon}</span>
 
         <div>
-          <h3 className="text-xl font-bold">{title}</h3>
-          <p>{text}</p>
+          <h3 className="text-base lg:text-xl font-bold text-white lg:text-black">
+            {title}
+          </h3>
+
+          <p className="text-xs lg:text-base text-white/80 lg:text-gray-600">
+            {text}
+          </p>
         </div>
       </div>
 
-      <span className="text-4xl leading-none">›</span>
+      <span className="text-2xl lg:text-4xl leading-none text-white lg:text-black">
+        ›
+      </span>
     </button>
   );
 }
