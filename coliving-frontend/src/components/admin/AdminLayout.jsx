@@ -30,7 +30,7 @@ const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-muted/30 dark:bg-black">
+    <div className="min-h-screen bg-muted/30 dark:bg-black pb-10">
       <Navbar />
 
       <div className="flex relative">

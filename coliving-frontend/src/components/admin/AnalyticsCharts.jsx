@@ -18,14 +18,14 @@ export function AnalyticsPieChart({ data, dataKey = "count", nameKey = "_id" }) 
 
   if (chartData.length === 0) {
     return (
-      <div className="flex h-[260px] sm:h-[350px] items-center justify-center text-sm text-muted-foreground">
+      <div className="flex h-65 sm:h-87.5 items-center justify-center text-sm text-muted-foreground">
         No chart data available.
       </div>
     );
   }
 
   return (
-    <div className="h-[260px] sm:h-[350px] min-w-0 w-full overflow-hidden">
+    <div className="h-65 sm:h-87.5 min-w-0 w-full overflow-hidden">
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie
@@ -52,14 +52,14 @@ export function AnalyticsBarChart({ data, xKey = "_id", yKey = "count" }) {
 
   if (chartData.length === 0) {
     return (
-      <div className="flex h-[260px] sm:h-[350px] items-center justify-center text-sm text-muted-foreground">
+      <div className="flex h-65 sm:h-87.5 items-center justify-center text-sm text-muted-foreground">
         No chart data available.
       </div>
     );
   }
 
   return (
-    <div className="h-[260px] sm:h-[350px] min-w-0 w-full overflow-hidden">
+    <div className="h-65 sm:h-87.5 min-w-0 w-full overflow-hidden">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 20 }}>
           <CartesianGrid strokeDasharray="3 3" />

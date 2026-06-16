@@ -97,7 +97,7 @@ const RoomsAnalyticsPage = () => {
             <CardTitle>Average Rent</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="flex h-[350px] items-center justify-center">
+            <div className="flex h-87.65 items-center justify-center">
               <div className="text-center">
                 <p className="text-6xl font-bold">
                   ₹{Math.round(rooms?.rentStats?.averageRent || 0)}
@@ -115,7 +115,7 @@ const RoomsAnalyticsPage = () => {
             <CardTitle>Average Deposit</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="flex h-[350px] items-center justify-center">
+            <div className="flex h-87.5 items-center justify-center">
               <div className="text-center">
                 <p className="text-6xl font-bold">
                   ₹{Math.round(rooms?.rentStats?.averageDeposit || 0)}

@@ -39,7 +39,6 @@ export default function Navbar() {
       {/* DESKTOP NAVBAR */}
       <nav className="hidden md:flex items-center justify-center bg-black py-4 px-10">
         <div className="w-full max-w-6xl bg-[#181818] rounded-full px-10 py-3 flex items-center justify-between gap-8 border border-[#2a2a2a] shadow-[inset_0_-18px_30px_rgba(0,0,0,0.6),0_12px_35px_rgba(0,0,0,0.7)]">
-
           {/* LOGO */}
           <Link
             to="/properties"
@@ -55,20 +54,14 @@ export default function Navbar() {
 
           {/* LINKS */}
           <div className="flex items-center gap-10 flex-nowrap">
-
             <Link to="/properties" className={desktopNavItem}>
               <FaHome size={18} />
-              <span className="text-xs font-bold tracking-wider">
-                HOME
-              </span>
+              <span className="text-xs font-bold tracking-wider">HOME</span>
               <span className={desktopGlow}></span>
             </Link>
 
             {user?.role === "tenant" && (
-              <Link
-                to="/booking-history"
-                className={desktopNavItem}
-              >
+              <Link to="/booking-history" className={desktopNavItem}>
                 <FaCalendarAlt size={18} />
                 <span className="text-xs font-bold tracking-wider">
                   BOOKINGS
@@ -79,10 +72,7 @@ export default function Navbar() {
 
             {user?.role === "owner" && (
               <>
-                <Link
-                  to="/owner/dashboard"
-                  className={desktopNavItem}
-                >
+                <Link to="/owner/dashboard" className={desktopNavItem}>
                   <FaChartLine size={18} />
                   <span className="text-xs font-bold tracking-wider">
                     DASHBOARD
@@ -90,10 +80,7 @@ export default function Navbar() {
                   <span className={desktopGlow}></span>
                 </Link>
 
-                <Link
-                  to="/owner-dashboard"
-                  className={desktopNavItem}
-                >
+                <Link to="/owner-dashboard" className={desktopNavItem}>
                   <FaBuilding size={18} />
                   <span className="text-xs font-bold tracking-wider">
                     PROPERTY
@@ -104,31 +91,19 @@ export default function Navbar() {
             )}
 
             {user?.role === "admin" && (
-             <>
-               <Link
-                to="/admin/analytics"
-                className={desktopNavItem}
-              >
-                <FaShieldAlt size={18} />
-                <span className="text-xs font-bold tracking-wider">
-                  ADMIN
-                </span>
-                <span className={desktopGlow}></span>
-              </Link>
+              <>
+                <Link to="/admin/analytics" className={mobileNavItem}>
+                  <FaShieldAlt size={18} />
+                  <span className="text-[9px] mt-1">ADMIN</span>
+                  <span className={mobileGlow}></span>
+                </Link>
 
-
-                <Link
-                to="/admin/roomrequests "
-                className={desktopNavItem}
-                >    
-                <FaShieldAlt size={18} /> 
-                <span className="text-xs font-bold tracking-wider">
-                  Booking-Request 
-                </span>
-                <span className={desktopGlow}></span>
-              </Link>
-             </>
-              
+                <Link to="/admin/roomrequests" className={mobileNavItem}>
+                  <FaBuilding size={18} />
+                  <span className="text-[9px] mt-1">REQUESTS</span>
+                  <span className={mobileGlow}></span>
+                </Link>
+              </>
             )}
 
             {user?.role !== "admin" && (
@@ -143,23 +118,15 @@ export default function Navbar() {
 
             <Link to="/profile" className={desktopNavItem}>
               <FaUser size={18} />
-              <span className="text-xs font-bold tracking-wider">
-                PROFILE
-              </span>
+              <span className="text-xs font-bold tracking-wider">PROFILE</span>
               <span className={desktopGlow}></span>
             </Link>
 
-            <button
-              onClick={handleLogout}
-              className={desktopNavItem}
-            >
+            <button onClick={handleLogout} className={desktopNavItem}>
               <FaSignOutAlt size={18} />
-              <span className="text-xs font-bold tracking-wider">
-                LOGOUT
-              </span>
+              <span className="text-xs font-bold tracking-wider">LOGOUT</span>
               <span className={desktopGlow}></span>
             </button>
-
           </div>
         </div>
       </nav>
@@ -182,7 +149,6 @@ export default function Navbar() {
       {/* MOBILE NAV */}
       <nav className="md:hidden fixed bottom-0 left-0 w-full z-50 bg-[#181818] border-t border-[#2a2a2a]">
         <div className="flex justify-around items-center py-3">
-
           <Link to="/properties" className={mobileNavItem}>
             <FaHome size={18} />
             <span className="text-[9px] mt-1">HOME</span>
@@ -190,53 +156,33 @@ export default function Navbar() {
           </Link>
 
           {user?.role === "tenant" && (
-            <Link
-              to="/booking-history"
-              className={mobileNavItem}
-            >
+            <Link to="/booking-history" className={mobileNavItem}>
               <FaCalendarAlt size={18} />
-              <span className="text-[9px] mt-1">
-                BOOKINGS
-              </span>
+              <span className="text-[9px] mt-1">BOOKINGS</span>
               <span className={mobileGlow}></span>
             </Link>
           )}
 
           {user?.role === "owner" && (
             <>
-              <Link
-                to="/owner/dashboard"
-                className={mobileNavItem}
-              >
+              <Link to="/owner/dashboard" className={mobileNavItem}>
                 <FaChartLine size={18} />
-                <span className="text-[9px] mt-1">
-                  DASHBOARD
-                </span>
+                <span className="text-[9px] mt-1">DASHBOARD</span>
                 <span className={mobileGlow}></span>
               </Link>
 
-              <Link
-                to="/owner-dashboard"
-                className={mobileNavItem}
-              >
+              <Link to="/owner-dashboard" className={mobileNavItem}>
                 <FaBuilding size={18} />
-                <span className="text-[9px] mt-1">
-                  PROPERTY
-                </span>
+                <span className="text-[9px] mt-1">PROPERTY</span>
                 <span className={mobileGlow}></span>
               </Link>
             </>
           )}
 
           {user?.role === "admin" && (
-            <Link
-              to="/admin/analytics"
-              className={mobileNavItem}
-            >
+            <Link to="/admin/analytics" className={mobileNavItem}>
               <FaShieldAlt size={18} />
-              <span className="text-[9px] mt-1">
-                ADMIN
-              </span>
+              <span className="text-[9px] mt-1">ADMIN</span>
               <span className={mobileGlow}></span>
             </Link>
           )}
@@ -244,32 +190,22 @@ export default function Navbar() {
           {user?.role !== "admin" && (
             <Link to="/inbox" className={mobileNavItem}>
               <FaEnvelope size={18} />
-              <span className="text-[9px] mt-1">
-                CHAT
-              </span>
+              <span className="text-[9px] mt-1">CHAT</span>
               <span className={mobileGlow}></span>
             </Link>
           )}
 
           <Link to="/profile" className={mobileNavItem}>
             <FaUser size={18} />
-            <span className="text-[9px] mt-1">
-              PROFILE
-            </span>
+            <span className="text-[9px] mt-1">PROFILE</span>
             <span className={mobileGlow}></span>
           </Link>
 
-          <button
-            onClick={handleLogout}
-            className={mobileNavItem}
-          >
+          <button onClick={handleLogout} className={mobileNavItem}>
             <FaSignOutAlt size={18} />
-            <span className="text-[9px] mt-1">
-              LOGOUT
-            </span>
+            <span className="text-[9px] mt-1">LOGOUT</span>
             <span className={mobileGlow}></span>
           </button>
-
         </div>
       </nav>
     </>
