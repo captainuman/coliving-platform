@@ -8,14 +8,14 @@ export default function Bookings() {
   const [bookings, setBookings] = useState([]);
   const [filter, setFilter] = useState("all");
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     fetchBookings();
   }, []);
 
   const BACKEND_URL =
-  import.meta.env.VITE_API_URL?.replace("/api", "") ||
-  "https://coliving-backend.onrender.com";
+    import.meta.env.VITE_API_URL?.replace("/api", "") ||
+    "https://coliving-backend.onrender.com";
 
   const fetchBookings = async () => {
     try {
@@ -65,40 +65,39 @@ export default function Bookings() {
     },
   ];
 
-
   const handleDeleteBooking = async (bookingId) => {
-  if (!window.confirm("Are you sure you want to delete this booking?")) {
-    return;
-  }
+    if (!window.confirm("Are you sure you want to delete this booking?")) {
+      return;
+    }
 
-  try {
-    await API.delete(`/bookings/${bookingId}`);
+    try {
+      await API.delete(`/bookings/${bookingId}`);
 
-    setBookings((prev) =>
-      prev.filter((booking) => booking._id !== bookingId)
-    );
+      setBookings((prev) =>
+        prev.filter((booking) => booking._id !== bookingId),
+      );
 
-    toast.success("Booking deleted successfully");
-  } catch (err) {
-    toast.error(
-      err.response?.data?.message || "Failed to delete booking"
-    );
-  }
-};
+      toast.success("Booking deleted successfully");
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to delete booking");
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 pb-10">
       <Navbar />
 
-      <div className="max-w-7xl mx-auto p-6">
-        <h1 className="text-4xl font-bold mb-8">My Bookings</h1>
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 py-6">
+        <h1 className="text-2xl sm:text-4xl font-bold mb-6 sm:mb-8">
+          My Bookings
+        </h1>
 
-        <div className="flex flex-wrap gap-3 mb-8">
+        <div className="flex gap-3 mb-8 overflow-x-auto pb-2">
           {filters.map((item) => (
             <button
               key={item.key}
               onClick={() => setFilter(item.key)}
-              className={`px-5 py-2 rounded-xl font-medium ${
+              className={`whitespace-nowrap px-5 py-2 rounded-xl font-medium ${
                 filter === item.key ? item.activeClass : "bg-white border"
               }`}
             >
@@ -122,40 +121,39 @@ export default function Bookings() {
                   <img
                     src={
                       booking.room.images[0].startsWith("/uploads")
-                        ? `https://coliving-backend.onrender.com${booking.room.images[0]}`
-                        : `https://coliving-backend.onrender.com/uploads/rooms/${booking.room.images[0]}`
+                        ? `${BACKEND_URL}${booking.room.images[0]}`
+                        : `${BACKEND_URL}/uploads/rooms/${booking.room.images[0]}`
                     }
                     alt="room"
                     className="w-full h-40 object-cover"
                   />
                 )}
 
-                <div className="p-6">
-                  <div className="flex items-center gap-4">
+                <div className="p-4 sm:p-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-5">
                     {console.log(booking.user)}
-                      <img
-                        src={
-                          booking.user?.profilePic
-                            ? booking.user.profilePic.startsWith("/uploads")
-                              ? `${BACKEND_URL}${booking.user.profilePic}`
-                              : `${BACKEND_URL}/uploads/${booking.user.profilePic}`
-                            : "/default-user.png"
-                        }
-                        alt={booking.user?.name || "User"}
-                        className="w-20 h-20 rounded-full object-cover"
-                      />
+                    <img
+                      src={
+                        booking.user?.profilePic
+                          ? booking.user.profilePic.startsWith("/uploads")
+                            ? `${BACKEND_URL}${booking.user.profilePic}`
+                            : `${BACKEND_URL}/uploads/${booking.user.profilePic}`
+                          : "/default-user.png"
+                      }
+                      alt={booking.user?.name || "User"}
+                      className="w-14 h-14 sm:w-20 sm:h-20 rounded-full object-cover"
+                    />
 
-                      <div>
-                        <h2 className="font-bold text-xl">
-                          {booking.user?.name}
-                        </h2>
+                    <div>
+                      <h2 className="font-bold text-xl">
+                        {booking.user?.name}
+                      </h2>
 
-                        <p className="text-gray-500 text-sm">
-                          {booking.user?.email}
-                        </p>
-                      </div>
-
+                      <p className="text-gray-500 text-xs sm:text-sm break-all">
+                        {booking.user?.email}
+                      </p>
                     </div>
+                  </div>
 
                   <div className="bg-blue-50 rounded-xl p-4 mb-4">
                     <h3 className="font-bold mb-2">🏠 Property Details</h3>
@@ -173,7 +171,7 @@ export default function Bookings() {
                   <div className="bg-gray-50 rounded-xl p-4 mb-4">
                     <h3 className="font-bold mb-3">🛏 Room Details</h3>
 
-                    <div className="grid grid-cols-2 gap-3 text-sm">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
                       <p>
                         Type:{" "}
                         <span className="font-medium capitalize">
@@ -225,20 +223,23 @@ export default function Bookings() {
                       : "N/A"}
                   </p>
 
-                  <button
-                    onClick={() => handleDeleteBooking(booking._id)}
-                    className="mt-4 bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-xl"
-                  >
-                    Delete Booking
-                  </button>
-                  <button
-                    onClick={() =>
-                      navigate(`/rooms/${booking.room?.property?._id}`)
-                    }
-                    className="bg-orange-500 hover:bg-orange-600 text-white ml-2 px-4 py-2 rounded-xl"
-                  >
-                    View Room
-                  </button>
+                  <div className="flex flex-col sm:flex-row gap-3 mt-4">
+                    <button
+                      onClick={() => handleDeleteBooking(booking._id)}
+                      className="w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-xl"
+                    >
+                      Delete Booking
+                    </button>
+
+                    <button
+                      onClick={() =>
+                        navigate(`/rooms/${booking.room?.property?._id}`)
+                      }
+                      className="w-full sm:w-auto bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-xl"
+                    >
+                      View Room
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
