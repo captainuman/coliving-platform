@@ -188,7 +188,7 @@ export default function Register() {
                   name="gender"
                   value={form.gender}
                   onChange={handleChange}
-                  className="h-14 rounded-full bg-white/20 backdrop-blur-md px-5 text-white outline-none"
+                  className="w-full h-14 rounded-full bg-white/20 backdrop-blur-md px-5 text-white outline-none"
                   required
                 >
                   <option className="text-black" value="">
