@@ -170,7 +170,8 @@ export default function Rooms() {
           </div>
 
           {/* Thumbnail Images */}
-          <div className="lg:col-span-3 grid grid-rows-4 gap-2 h-80">
+          {/* Thumbnail Images */}
+          <div className="hidden lg:grid lg:col-span-3 grid-rows-4 gap-2 h-80">
             {rooms[0]?.images?.slice(1, 5).map((img, index) => (
               <img
                 key={index}
@@ -229,10 +230,10 @@ export default function Rooms() {
       </div>
 
       <div id="rooms" className=" rounded-lg overflow-hidden m-5">
-        <div className="grid grid-cols-12 bg-orange-200 px-10 py-2 font-semibold text-[14px] ">
-          <div className="col-span-4">Room Type</div>
-          <div className="col-span-4">Roommates</div>
-          <div className="col-span-4">Price</div>
+        <div className="flex flex-col lg:grid lg:grid-cols-12 bg-orange-200 px-4 lg:px-10 py-2 font-semibold text-[14px]">
+          <div className="lg:col-span-4">Room Type</div>
+          <div className="lg:col-span-4">Roommates</div>
+          <div className="lg:col-span-4">Price</div>
         </div>
 
         {rooms.map((room) => {
@@ -241,10 +242,10 @@ export default function Rooms() {
           return (
             <div
               key={room._id}
-              className="grid grid-cols-12 border border-orange-200"
+              className="flex flex-col lg:grid lg:grid-cols-12 border border-orange-200"
             >
               {/* Room Image */}
-              <div className="col-span-4 p-2 px-4 border-r border-orange-100">
+              <div className="lg:col-span-4 p-2 px-4 border-r border-orange-100">
                 <h3 className="font-semibold text-[15px] py-2">
                   {room.type} Room
                 </h3>
@@ -254,7 +255,7 @@ export default function Rooms() {
               </div>
 
               {/* ROOMMATE DETAILS */}
-              <div className="col-span-4 p-4 border-r border-orange-100">
+              <div className="lg:col-span-4 p-4 border-r border-orange-100">
                 <h3 className="text-lg font-bold mb-4">
                   Current Roommates Details
                 </h3>
@@ -288,7 +289,7 @@ export default function Rooms() {
               </div>
 
               {/* Price */}
-              <div className="col-span-4 p-4 flex flex-col items- justify-center">
+              <div className="lg:col-span-4 p-4 flex flex-col justify-center">
                 <h3 className="text-lg font-bold mb-4">Current Roommates</h3>
 
                 <div className="mb-4 bg-blue-300 p-3 rounded-lg text-center">

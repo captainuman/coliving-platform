@@ -828,7 +828,7 @@ function MenuButton({ active, icon, title, text, onClick }) {
   return (
     <button
       onClick={onClick}
-      className={`w-full flex items-center justify-between rounded-2xl px-5 py-1 ${
+      className={`w-full flex items-center justify-between rounded-2xl px-5 py-2  ${
         active
           ? "bg-blue-800 border border-blue-500"
           : "bg-blue-950 border border-blue-900"
@@ -840,7 +840,7 @@ function MenuButton({ active, icon, title, text, onClick }) {
         <div>
           <h3 className="text-xl font-bold text-white">{title}</h3>
 
-          <p className="text-base text-gray-600">{text}</p>
+          <p className="text-base text-gray-400">{text}</p>
         </div>
       </div>
 
