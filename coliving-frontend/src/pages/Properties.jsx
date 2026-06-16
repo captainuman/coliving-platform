@@ -309,87 +309,147 @@ export default function Properties() {
               Find Your Space. Find Your People
             </p>
 
-            <div className="bg-white rounded-xl shadow-xl p-3">
+            {/* Mobile */}
+            <div className="block lg:hidden bg-white rounded-xl shadow-lg p-3">
+              {/* Location */}
+              <div className="mb-3">
+                <p className="text-xs text-gray-500 mb-1">📍 Location</p>
+                <input
+                  type="text"
+                  name="location"
+                  value={filters.location}
+                  onChange={handleFilterChange}
+                  placeholder="Enter Location"
+                  className="w-full h-10 px-3 rounded border border-gray-200 text-sm"
+                />
+              </div>
 
-  {/* Location */}
-  <div className="mb-3">
-    <label className="block text-xs font-semibold text-gray-600 mb-1">
-      Location
-    </label>
-    <input
-      type="text"
-      name="location"
-      value={filters.location}
-      onChange={handleFilterChange}
-      placeholder="Enter location"
-      className="w-full h-10 px-3 border rounded-lg text-sm"
-    />
-  </div>
+              {/* Rent + Room Type + Gender */}
+              <div className="grid grid-cols-3 gap-2 mb-3">
+                <div>
+                  <p className="text-xs text-gray-500 mb-1">💰 Rent</p>
+                  <input
+                    type="number"
+                    name="maxRent"
+                    value={filters.maxRent}
+                    onChange={handleFilterChange}
+                    placeholder="₹"
+                    className="w-full h-10 px-2 rounded border border-gray-200 text-sm"
+                  />
+                </div>
 
-  {/* Rent + Room Type + Gender */}
-  <div className="grid grid-cols-3 gap-2 mb-3">
+                <div>
+                  <p className="text-xs text-gray-500 mb-1">🛏 Room</p>
+                  <select
+                    name="roomType"
+                    value={filters.roomType}
+                    onChange={handleFilterChange}
+                    className="w-full h-10 px-2 rounded border border-gray-200 text-sm"
+                  >
+                    <option value="">All</option>
+                    <option value="shared">Shared</option>
+                    <option value="private">Private</option>
+                  </select>
+                </div>
 
-    <div>
-      <label className="block text-xs font-semibold text-gray-600 mb-1">
-        Rent
-      </label>
-      <input
-        type="number"
-        name="maxRent"
-        value={filters.maxRent}
-        onChange={handleFilterChange}
-        placeholder="₹"
-        className="w-full h-10 px-2 border rounded-lg text-sm"
-      />
-    </div>
+                <div>
+                  <p className="text-xs text-gray-500 mb-1">👤 Gender</p>
+                  <select
+                    name="gender"
+                    value={filters.gender}
+                    onChange={handleFilterChange}
+                    className="w-full h-10 px-2 rounded border border-gray-200 text-sm"
+                  >
+                    <option value="">All</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="any">Any</option>
+                  </select>
+                </div>
+              </div>
 
-    <div>
-      <label className="block text-xs font-semibold text-gray-600 mb-1">
-        Room
-      </label>
-      <select
-        name="roomType"
-        value={filters.roomType}
-        onChange={handleFilterChange}
-        className="w-full h-10 px-2 border rounded-lg text-sm"
-      >
-        <option value="">All</option>
-        <option value="shared">Shared</option>
-        <option value="private">Private</option>
-      </select>
-    </div>
+              <button
+                onClick={() => {
+                  const query = new URLSearchParams(filters).toString();
+                  navigate(`/hotels?${query}`);
+                }}
+                className="w-full h-11 bg-orange-500 text-white rounded-lg font-semibold"
+              >
+                SEARCH
+              </button>
+            </div>
 
-    <div>
-      <label className="block text-xs font-semibold text-gray-600 mb-1">
-        Gender
-      </label>
-      <select
-        name="gender"
-        value={filters.gender}
-        onChange={handleFilterChange}
-        className="w-full h-10 px-2 border rounded-lg text-sm"
-      >
-        <option value="">All</option>
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-        <option value="any">Any</option>
-      </select>
-    </div>
+            {/* Desktop - Keep your existing code exactly as it is */}
+            <div className="hidden lg:grid lg:grid-cols-[2.5fr_1fr_1fr_1fr_1fr] bg-white overflow-hidden rounded-xl shadow-xl/30 shadow-black/50 font-poppins text-[14px] font-medium">
+              <div className="border-b lg:border-b-0 lg:border-r border-gray-300 p-4">
+                <p className="text-gray-500 mb-2">
+                  📍 Enter City Name, Location, or Specific hotel
+                </p>
 
-  </div>
+                <input
+                  type="text"
+                  name="location"
+                  value={filters.location}
+                  onChange={handleFilterChange}
+                  placeholder="Location"
+                  className="w-full h-10 px-3 rounded bg-white shadow-md text-sm font-medium"
+                />
+              </div>
 
-  {/* Search Button */}
-  <button
-    onClick={() => {
-      const query = new URLSearchParams(filters).toString();
-      navigate(`/hotels?${query}`);
-    }}
-    className="w-full h-11 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-semibold"
-  >
-    SEARCH
-  </button>
+              <div className="border-b lg:border-b-0 lg:border-r border-gray-300 p-4">
+                <p className="text-gray-500 mb-2">💰 Maximum Rent</p>
 
-</div>
+                <input
+                  type="number"
+                  name="maxRent"
+                  value={filters.maxRent}
+                  onChange={handleFilterChange}
+                  placeholder="₹ Rent"
+                  className="w-full h-10 px-3 rounded bg-white shadow-md text-sm font-medium border border-gray-200"
+                />
+              </div>
+
+              <div className="border-b lg:border-b-0 lg:border-r border-gray-300 p-4">
+                <p className="text-gray-500 mb-2">🛏 Room Type</p>
+
+                <select
+                  name="roomType"
+                  value={filters.roomType}
+                  onChange={handleFilterChange}
+                  className="w-full h-10 px-3 rounded bg-white shadow-md text-sm font-medium border border-gray-200 appearance-none text-gray-500"
+                >
+                  <option value="">Select</option>
+                  <option value="shared">Shared</option>
+                  <option value="private">Private</option>
+                </select>
+              </div>
+
+              <div className="border-b lg:border-b-0 lg:border-r border-gray-300 p-4">
+                <p className="text-gray-500 mb-2">👤 Gender</p>
+
+                <select
+                  name="gender"
+                  value={filters.gender}
+                  onChange={handleFilterChange}
+                  className="w-full h-10 px-3 rounded bg-white shadow-md text-sm font-medium border border-gray-200 appearance-none text-gray-500"
+                >
+                  <option value="">Select</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="any">Any</option>
+                </select>
+              </div>
+
+              <button
+                onClick={() => {
+                  const query = new URLSearchParams(filters).toString();
+                  navigate(`/hotels?${query}`);
+                }}
+                className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-4 lg:py-0"
+              >
+                SEARCH
+              </button>
+            </div>
           </div>
 
           <div className="text-blue-950 mb-10">
