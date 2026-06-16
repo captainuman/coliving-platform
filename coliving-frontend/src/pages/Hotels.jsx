@@ -66,7 +66,7 @@ export default function Hotels() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 pb-24">
       <Navbar />
 
       {/* HEADER */}
