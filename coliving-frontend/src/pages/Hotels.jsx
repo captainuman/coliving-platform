@@ -169,7 +169,7 @@ export default function Hotels() {
                 {/* PRICE */}
 
                 <div className="lg:col-span-3 border-t lg:border-t-0 lg:border-l border-gray-300 p-4 lg:p-6 flex flex-col">
-                  <>
+                  <div className="flex justify-between items-start lg:block">
                     {/* Mobile Only */}
                     <div className="flex justify-between items-start lg:hidden mb-4">
                       {/* Price Left */}
@@ -233,7 +233,7 @@ export default function Hotels() {
                         </p>
                       </div>
                     </div>
-                  </>
+                  </div>
                 </div>
                 <button
                   onClick={() => navigate(`/rooms/${property.property?._id}`)}
