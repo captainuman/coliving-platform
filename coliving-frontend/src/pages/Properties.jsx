@@ -287,7 +287,7 @@ export default function Properties() {
           >
             {properties.map((property) => (
               <SwiperSlide key={property._id} className="flex justify-center">
-                <div className="w-full max-w-sm mx-auto">
+                <div className="w-full max-w-sm px-10 lg:px-0">
                   <PropertyCard property={property} />
                 </div>
               </SwiperSlide>
@@ -313,7 +313,9 @@ export default function Properties() {
             <div className="block lg:hidden bg-white rounded-xl shadow-lg p-3">
               {/* Location */}
               <div className="mb-3">
-                <p className="text-xs text-gray-500 mb-1">📍 Location</p>
+                <p className="text-xs text-gray-500 mb-1">
+                  📍 Enter City Name, Location, or Specific hotel
+                </p>
                 <input
                   type="text"
                   name="location"
@@ -327,7 +329,7 @@ export default function Properties() {
               {/* Rent + Room Type + Gender */}
               <div className="grid grid-cols-3 gap-2 mb-3">
                 <div>
-                  <p className="text-xs text-gray-500 mb-1">💰 Rent</p>
+                  <p className="text-xs text-gray-500 mb-1">💰 Maximum Rent</p>
                   <input
                     type="number"
                     name="maxRent"
@@ -339,7 +341,7 @@ export default function Properties() {
                 </div>
 
                 <div>
-                  <p className="text-xs text-gray-500 mb-1">🛏 Room</p>
+                  <p className="text-xs text-gray-500 mb-1">🛏 Room Type</p>
                   <select
                     name="roomType"
                     value={filters.roomType}
@@ -457,7 +459,7 @@ export default function Properties() {
               {" "}
               Recently Viewed Properties
             </h1>
-            <PropertySection properties={recentlyViewedProperties} />
+            F<PropertySection properties={recentlyViewedProperties} />
           </div>
 
           <div className="text-blue-950 mb-10">
