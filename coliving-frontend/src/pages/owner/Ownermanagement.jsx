@@ -149,7 +149,7 @@ export default function Ownermanagement() {
 
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 pb-10">
       <Navbar />
 
       <div className="p-8">

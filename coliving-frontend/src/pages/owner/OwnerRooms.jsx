@@ -152,7 +152,7 @@ const handleDelete = async (id) => {
 };
 
   return (
-    <div className="max-w-7xl mx-auto px-3 sm:px-6 pb-5">
+    <div className="max-w-7xl mx-auto px-3 sm:px-6 pb-10">
       <Navbar />
 
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-6 mt-6">
