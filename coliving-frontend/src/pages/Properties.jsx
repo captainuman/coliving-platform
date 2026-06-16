@@ -310,7 +310,7 @@ export default function Properties() {
             </p>
 
             {/* Mobile */}
-            <div className="block lg:hidden bg-white rounded-xl shadow-lg p-3">
+            <div className="block lg:hidden bg-white rounded-xl shadow-lg p-3 font-semibold">
               {/* Location */}
               <div className="mb-3">
                 <p className="text-xs text-gray-500 mb-1">
@@ -459,7 +459,7 @@ export default function Properties() {
               {" "}
               Recently Viewed Properties
             </h1>
-            F<PropertySection properties={recentlyViewedProperties} />
+            <PropertySection properties={recentlyViewedProperties} />
           </div>
 
           <div className="text-blue-950 mb-10">
@@ -515,7 +515,7 @@ export default function Properties() {
               <div className="flex justify-center mt-10">
                 <button
                   onClick={() => navigate("/properties")}
-                  className="bg-blue-500 text-white px-5 py-2 rounded-full"
+                  className="bg-blue-950 text-white px-3 py-2 rounded-full"
                 >
                   Show All Properties
                 </button>
