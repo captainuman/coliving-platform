@@ -75,7 +75,10 @@ router.post("/", async (req, res) => {
     }).populate("participants", "name email profilePic role");
 
     if (existingConversation) {
-      return res.json(existingConversation);
+      return res.json({
+        ...existingConversation.toObject(),
+        unreadCount: 0,
+      });
     }
 
     const conversation = await Conversation.create({
@@ -88,7 +91,10 @@ router.post("/", async (req, res) => {
       conversation._id,
     ).populate("participants", "name email profilePic role");
 
-    res.status(201).json(populatedConversation);
+    res.status(201).json({
+      ...populatedConversation.toObject(),
+      unreadCount: 0,
+    });
   } catch (err) {
     res.status(500).json({
       message: err.message,

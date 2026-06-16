@@ -1,4 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import API from "../services/api";
+import socket from "../services/socket";
 import {
   FaHome,
   FaCalendarAlt,
@@ -15,6 +18,8 @@ export default function Navbar() {
 
   const storedUser = localStorage.getItem("user");
   const user = storedUser ? JSON.parse(storedUser) : null;
+
+  const [unreadCount, setUnreadCount] = useState(0);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -33,6 +38,42 @@ export default function Navbar() {
 
   const desktopGlow =
     "absolute -bottom-4 left-1/2 -translate-x-1/2 w-8 h-1 rounded-full bg-cyan-400 shadow-[0_0_10px_#22d3ee,0_0_22px_#22d3ee] opacity-0 group-hover:opacity-100 transition-all duration-300";
+
+  const unreadBadge =
+    "absolute -top-2 -right-3 bg-red-600 text-white text-[10px] min-w-5 h-5 px-1 rounded-full flex items-center justify-center";
+
+  const fetchUnreadCount = async () => {
+    try {
+      const res = await API.get("/conversations");
+
+      const totalUnread = res.data.reduce(
+        (total, conversation) => total + (conversation.unreadCount || 0),
+        0
+      );
+
+      setUnreadCount(totalUnread);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    if (!user?._id) return;
+
+    fetchUnreadCount();
+
+    socket.connect();
+    socket.emit("join", user._id);
+
+    socket.on("receiveMessage", fetchUnreadCount);
+
+    window.addEventListener("refreshConversations", fetchUnreadCount);
+
+    return () => {
+      socket.off("receiveMessage", fetchUnreadCount);
+      window.removeEventListener("refreshConversations", fetchUnreadCount);
+    };
+  }, [user?._id]);
 
   return (
     <>
@@ -112,7 +153,12 @@ export default function Navbar() {
 
             {user?.role !== "admin" && (
               <Link to="/inbox" className={desktopNavItem}>
-                <FaEnvelope size={18} />
+                <div className="relative">
+                  <FaEnvelope size={18} />
+                  {unreadCount > 0 && (
+                    <span className={unreadBadge}>{unreadCount}</span>
+                  )}
+                </div>
                 <span className="text-xs font-bold tracking-wider">
                   MESSAGES
                 </span>
@@ -192,7 +238,12 @@ export default function Navbar() {
               )}
 
               <Link to="/inbox" className={mobileNavItem}>
-                <FaEnvelope size={18} />
+                <div className="relative">
+                  <FaEnvelope size={18} />
+                  {unreadCount > 0 && (
+                    <span className={unreadBadge}>{unreadCount}</span>
+                  )}
+                </div>
                 <span className="text-[9px] mt-1">CHAT</span>
                 <span className={mobileGlow}></span>
               </Link>

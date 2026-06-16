@@ -8,7 +8,11 @@ import ChatHeader from "./ChatHeader";
 import toast from "react-hot-toast";
 import socket from "../../services/socket";
 
-export default function ChatWindow({ conversation, onBack }) {
+export default function ChatWindow({
+  conversation,
+  onBack,
+  onConversationUpdate,
+}) {
   const [messages, setMessages] = useState([]);
   const [onlineUsers, setOnlineUsers] = useState([]);
 
@@ -36,9 +40,10 @@ export default function ChatWindow({ conversation, onBack }) {
     });
 
     socket.on("receiveMessage", (message) => {
+      onConversationUpdate?.();
+
       if (conversation && message.conversation === conversation._id) {
         setMessages((prev) => [...prev, message]);
-
         API.put(`/messages/${message.conversation}/seen`).catch(console.log);
       } else {
         toast.success(`New message: ${message.text}`);
@@ -55,8 +60,8 @@ export default function ChatWindow({ conversation, onBack }) {
     try {
       const res = await API.get(`/messages/${conversation._id}`);
       setMessages(res.data);
-
       await API.put(`/messages/${conversation._id}/seen`);
+      onConversationUpdate?.();
     } catch (err) {
       console.log(err);
     }
@@ -72,14 +77,14 @@ export default function ChatWindow({ conversation, onBack }) {
           _id: Date.now(),
           sender: currentUser._id,
           text,
-          createdAt: new Date()
+          createdAt: new Date(),
         },
         {
           _id: Date.now() + 1,
           sender: "ai",
           text: "Hello! I am your AI Assistant. How can I help you?",
-          createdAt: new Date()
-        }
+          createdAt: new Date(),
+        },
       ]);
 
       return;
@@ -88,7 +93,7 @@ export default function ChatWindow({ conversation, onBack }) {
     try {
       const res = await API.post("/messages", {
         conversationId: conversation._id,
-        text
+        text,
       });
 
       setMessages((prev) => [...prev, res.data]);
@@ -100,9 +105,11 @@ export default function ChatWindow({ conversation, onBack }) {
       if (receiver) {
         socket.emit("sendMessage", {
           ...res.data,
-          receiverId: receiver._id
+          receiverId: receiver._id,
         });
       }
+
+      onConversationUpdate?.();
     } catch (err) {
       console.log(err);
       toast.error("Failed to send message");

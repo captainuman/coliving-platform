@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import API from "../../services/api";
+import socket from "../../services/socket";
 
 export default function ConversationSidebar({
   selectedConversation,
@@ -17,6 +18,14 @@ export default function ConversationSidebar({
 
   useEffect(() => {
     fetchConversations();
+    
+    socket.on("receiveMessage", fetchConversations);
+    socket.on("conversationUpdated", fetchConversations);
+
+    return () => {
+      socket.off("receiveMessage", fetchConversations);
+      socket.off("conversationUpdated", fetchConversations);
+    };
   }, [conversationId]);
 
   const fetchConversations = async () => {
