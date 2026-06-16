@@ -261,7 +261,7 @@ export default function Profile() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 text-black pb-10">
+    <div className="min-h-screen bg-gray-900 text-white">
       <Navbar />
 
       <div className="grid lg:grid-cols-[330px_1fr] gap-8 px-4 md:px-15 py-5 lg:py-8">
