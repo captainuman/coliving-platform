@@ -1,57 +1,74 @@
-import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import {
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+} from "recharts";
 
-export default function DashboardLayout({ children }) {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+const COLORS = ["#2563eb", "#16a34a", "#f59e0b", "#ef4444", "#8b5cf6"];
+
+export function AnalyticsPieChart({ data, dataKey = "count", nameKey = "_id" }) {
+  const chartData = Array.isArray(data) ? data : [];
+
+  if (chartData.length === 0) {
+    return (
+      <div className="flex h-[260px] sm:h-[350px] items-center justify-center text-sm text-muted-foreground">
+        No chart data available.
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen flex bg-gray-100">
-      {/* Sidebar */}
-      <aside
-        className={`fixed lg:static top-0 left-0 z-40 h-screen w-64 bg-white shadow transition-transform duration-300
-        ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}
-      >
-        <div className="flex justify-between items-center p-4 border-b">
-          <h2 className="text-xl font-bold">Dashboard</h2>
-
-          <button
-            onClick={() => setSidebarOpen(false)}
-            className="lg:hidden"
+    <div className="h-[260px] sm:h-[350px] min-w-0 w-full overflow-hidden">
+      <ResponsiveContainer width="100%" height="100%">
+        <PieChart>
+          <Pie
+            data={chartData}
+            dataKey={dataKey}
+            nameKey={nameKey}
+            outerRadius="75%"
+            label
           >
-            <X size={24} />
-          </button>
-        </div>
+            {chartData.map((_, index) => (
+              <Cell key={index} fill={COLORS[index % COLORS.length]} />
+            ))}
+          </Pie>
 
-        {/* Sidebar links */}
-        <nav className="p-4 space-y-3">
-          <p>Overview</p>
-          <p>Bookings</p>
-          <p>Rooms</p>
-          <p>Analytics</p>
-        </nav>
-      </aside>
+          <Tooltip />
+        </PieChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
 
-      {/* Main Content */}
-      <main
-        className={`flex-1 transition-all duration-300 ${
-          sidebarOpen ? "lg:ml-0" : "lg:ml-0"
-        }`}
-      >
-        {/* Top bar */}
-        <div className="bg-white shadow p-4 flex items-center gap-3">
-          {!sidebarOpen && (
-            <button onClick={() => setSidebarOpen(true)}>
-              <Menu size={26} />
-            </button>
-          )}
+export function AnalyticsBarChart({ data, xKey = "_id", yKey = "count" }) {
+  const chartData = Array.isArray(data) ? data : [];
 
-          <h1 className="font-bold text-lg">Analytics</h1>
-        </div>
+  if (chartData.length === 0) {
+    return (
+      <div className="flex h-[260px] sm:h-[350px] items-center justify-center text-sm text-muted-foreground">
+        No chart data available.
+      </div>
+    );
+  }
 
-        <div className="p-3 sm:p-6">
-          {children}
-        </div>
-      </main>
+  return (
+    <div className="h-[260px] sm:h-[350px] min-w-0 w-full overflow-hidden">
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 20 }}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey={xKey} tick={{ fontSize: 12 }} />
+          <YAxis tick={{ fontSize: 12 }} />
+          <Tooltip />
+          <Bar dataKey={yKey} radius={[8, 8, 0, 0]} />
+        </BarChart>
+      </ResponsiveContainer>
     </div>
   );
 }

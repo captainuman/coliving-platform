@@ -127,7 +127,7 @@ const AdminDataTable = ({
 
       <CardContent className="px-3 sm:px-6">
         <div className="overflow-x-auto rounded-md border">
-          <table className="w-full min-w-200 text-sm">
+          <table className="w-full min-w-[800px] text-sm">
             <thead className="bg-muted/60">
               <tr>
                 {columns.map((col) => (
