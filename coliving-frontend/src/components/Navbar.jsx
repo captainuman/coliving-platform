@@ -26,13 +26,13 @@ export default function Navbar() {
     "relative flex flex-col items-center gap-2 text-gray-400 hover:text-white transition-all duration-300 group whitespace-nowrap";
 
   const mobileNavItem =
-    "relative flex flex-col items-center justify-center shrink-0 min-w-[62px] text-gray-400 hover:text-white transition-all duration-300 group";
-
-  const desktopGlow =
-    "absolute -bottom-4 left-1/2 -translate-x-1/2 w-8 h-1 rounded-full bg-cyan-400 shadow-[0_0_10px_#22d3ee,0_0_22px_#22d3ee] opacity-0 group-hover:opacity-100 transition-all duration-300";
+    "relative flex flex-col items-center justify-center min-w-[58px] text-gray-400 hover:text-white transition-all duration-300 group";
 
   const mobileGlow =
     "absolute -bottom-3 w-7 h-1 rounded-full bg-cyan-400 shadow-[0_0_10px_#22d3ee,0_0_22px_#22d3ee] opacity-0 group-hover:opacity-100 transition-all duration-300";
+
+  const desktopGlow =
+    "absolute -bottom-4 left-1/2 -translate-x-1/2 w-8 h-1 rounded-full bg-cyan-400 shadow-[0_0_10px_#22d3ee,0_0_22px_#22d3ee] opacity-0 group-hover:opacity-100 transition-all duration-300";
 
   return (
     <>
@@ -92,16 +92,20 @@ export default function Navbar() {
 
             {user?.role === "admin" && (
               <>
-                <Link to="/admin/analytics" className={mobileNavItem}>
+                <Link to="/admin/analytics" className={desktopNavItem}>
                   <FaShieldAlt size={18} />
-                  <span className="text-[9px] mt-1">ADMIN</span>
-                  <span className={mobileGlow}></span>
+                  <span className="text-xs font-bold tracking-wider">
+                    ADMIN
+                  </span>
+                  <span className={desktopGlow}></span>
                 </Link>
 
-                <Link to="/admin/roomrequests" className={mobileNavItem}>
+                <Link to="/admin/roomrequests" className={desktopNavItem}>
                   <FaBuilding size={18} />
-                  <span className="text-[9px] mt-1">REQUESTS</span>
-                  <span className={mobileGlow}></span>
+                  <span className="text-xs font-bold tracking-wider">
+                    REQUESTS
+                  </span>
+                  <span className={desktopGlow}></span>
                 </Link>
               </>
             )}
@@ -148,54 +152,59 @@ export default function Navbar() {
 
       {/* MOBILE NAV */}
       <nav className="md:hidden fixed bottom-0 left-0 w-full z-50 bg-[#181818] border-t border-[#2a2a2a]">
-        <div className="flex items-center gap-4 overflow-x-auto py-3 px-3">
-          z
+        <div className="grid grid-cols-5 py-3">
           <Link to="/properties" className={mobileNavItem}>
             <FaHome size={18} />
             <span className="text-[9px] mt-1">HOME</span>
             <span className={mobileGlow}></span>
           </Link>
-          {user?.role === "tenant" && (
-            <Link to="/booking-history" className={mobileNavItem}>
-              <FaCalendarAlt size={18} />
-              <span className="text-[9px] mt-1">BOOKINGS</span>
-              <span className={mobileGlow}></span>
-            </Link>
-          )}
-          {user?.role === "owner" && (
+
+          {user?.role === "admin" ? (
             <>
-              <Link to="/owner/dashboard" className={mobileNavItem}>
-                <FaChartLine size={18} />
-                <span className="text-[9px] mt-1">DASHBOARD</span>
+              <Link to="/admin/analytics" className={mobileNavItem}>
+                <FaShieldAlt size={18} />
+                <span className="text-[9px] mt-1">ADMIN</span>
                 <span className={mobileGlow}></span>
               </Link>
 
-              <Link to="/owner-dashboard" className={mobileNavItem}>
+              <Link to="/admin/roomrequests" className={mobileNavItem}>
                 <FaBuilding size={18} />
-                <span className="text-[9px] mt-1">PROPERTY</span>
+                <span className="text-[9px] mt-1">REQUESTS</span>
+                <span className={mobileGlow}></span>
+              </Link>
+            </>
+          ) : (
+            <>
+              {user?.role === "tenant" && (
+                <Link to="/booking-history" className={mobileNavItem}>
+                  <FaCalendarAlt size={18} />
+                  <span className="text-[9px] mt-1">BOOKINGS</span>
+                  <span className={mobileGlow}></span>
+                </Link>
+              )}
+
+              {user?.role === "owner" && (
+                <Link to="/owner/dashboard" className={mobileNavItem}>
+                  <FaChartLine size={18} />
+                  <span className="text-[9px] mt-1">DASHBOARD</span>
+                  <span className={mobileGlow}></span>
+                </Link>
+              )}
+
+              <Link to="/inbox" className={mobileNavItem}>
+                <FaEnvelope size={18} />
+                <span className="text-[9px] mt-1">CHAT</span>
                 <span className={mobileGlow}></span>
               </Link>
             </>
           )}
-          {user?.role === "admin" && (
-            <Link to="/admin/analytics" className={mobileNavItem}>
-              <FaShieldAlt size={18} />
-              <span className="text-[9px] mt-1">ADMIN</span>
-              <span className={mobileGlow}></span>
-            </Link>
-          )}
-          {user?.role !== "admin" && (
-            <Link to="/inbox" className={mobileNavItem}>
-              <FaEnvelope size={18} />
-              <span className="text-[9px] mt-1">CHAT</span>
-              <span className={mobileGlow}></span>
-            </Link>
-          )}
+
           <Link to="/profile" className={mobileNavItem}>
             <FaUser size={18} />
             <span className="text-[9px] mt-1">PROFILE</span>
             <span className={mobileGlow}></span>
           </Link>
+
           <button onClick={handleLogout} className={mobileNavItem}>
             <FaSignOutAlt size={18} />
             <span className="text-[9px] mt-1">LOGOUT</span>
