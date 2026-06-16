@@ -261,7 +261,7 @@ export default function Profile() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen bg-gray-100 text-black pb-10">
       <Navbar />
 
       <div className="grid lg:grid-cols-[330px_1fr] gap-8 px-4 md:px-15 py-5 lg:py-8">
@@ -296,47 +296,45 @@ export default function Profile() {
                 </button>
               </div>
 
-              <MenuButton
+              <MobileMenuButton
                 active={activeMenu === "profile"}
                 icon="♙"
                 title="Profile"
-                text="Personal details"
                 onClick={() => {
                   handleMenuClick("profile");
                   setMobileMenuOpen(false);
                 }}
               />
-              <MenuButton
+
+              <MobileMenuButton
                 active={activeMenu === "reviews"}
                 icon="▢"
                 title="Reviews"
-                text="Your reviews"
                 onClick={() => {
                   handleMenuClick("reviews");
                   setMobileMenuOpen(false);
                 }}
               />
-              <MenuButton
+
+              <MobileMenuButton
                 active={activeMenu === "security"}
                 icon="⚙"
                 title="Security"
-                text="Email or password"
                 onClick={() => {
                   handleMenuClick("security");
                   setMobileMenuOpen(false);
                 }}
               />
-              <MenuButton
+
+              <MobileMenuButton
                 active={activeMenu === "help"}
                 icon="💬"
                 title="Help"
-                text="Support"
                 onClick={() => {
                   handleMenuClick("help");
                   setMobileMenuOpen(false);
                 }}
               />
-
               <button
                 onClick={handleLogout}
                 className="w-full rounded-2xl border border-red-200 text-red-500 px-4 py-3 font-bold"
@@ -392,7 +390,7 @@ export default function Profile() {
           </button>
         </aside>
 
-        <main className="rounded-2xl lg:rounded-3xl border border-gray-200 px-4 sm:px-6 md:px-16 py-6 md:py-14">  
+        <main className="rounded-2xl lg:rounded-3xl border border-gray-200 px-4 sm:px-6 md:px-16 py-6 md:py-14">
           {activeMenu === "profile" && (
             <section>
               <div className="flex items-center gap-3 mb-10">
@@ -826,32 +824,25 @@ export default function Profile() {
     </div>
   );
 }
-
 function MenuButton({ active, icon, title, text, onClick }) {
   return (
     <button
       onClick={onClick}
-      className={`w-full flex items-center justify-between rounded-2xl px-3 py-3 lg:px-5 lg:py-5 bg-blue-950 lg:bg-white ${
+      className={`w-full flex items-center justify-between rounded-2xl px-5 py-5 bg-white ${
         active ? "border-2 border-[#000b3f]" : "border border-gray-200"
       }`}
     >
-      <div className="flex items-center gap-3 lg:gap-5 text-left">
-        <span className="text-xl lg:text-3xl">{icon}</span>
+      <div className="flex items-center gap-5 text-left">
+        <span className="text-3xl">{icon}</span>
 
         <div>
-          <h3 className="text-base lg:text-xl font-bold text-white lg:text-black">
-            {title}
-          </h3>
+          <h3 className="text-xl font-bold text-black">{title}</h3>
 
-          <p className="text-xs lg:text-base text-white/80 lg:text-gray-600">
-            {text}
-          </p>
+          <p className="text-base text-gray-600">{text}</p>
         </div>
       </div>
 
-      <span className="text-2xl lg:text-4xl leading-none text-white lg:text-black">
-        ›
-      </span>
+      <span className="text-4xl leading-none text-black">›</span>
     </button>
   );
 }
@@ -868,6 +859,27 @@ function SecurityCard({ title, value, onClick }) {
       </div>
 
       <span className="text-3xl font-light">›</span>
+    </button>
+  );
+}
+
+function MobileMenuButton({ active, icon, title, onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`w-full flex items-center justify-between rounded-xl px-3 py-3 ${
+        active
+          ? "bg-blue-800 border border-blue-500"
+          : "bg-blue-950 border border-blue-900"
+      }`}
+    >
+      <div className="flex items-center gap-3">
+        <span className="text-xl">{icon}</span>
+
+        <span className="font-semibold text-white">{title}</span>
+      </div>
+
+      <span className="text-white">›</span>
     </button>
   );
 }
