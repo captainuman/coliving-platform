@@ -178,37 +178,40 @@ export default function Hotels() {
                   "
                 >
                   <div className="flex justify-between items-start lg:block">
-                    {/* Rating - Left on mobile */}
-                    <div className="flex items-start gap-2 mb-0 lg:mb-10">
-                      <div>
-                        <h3 className="text-blue-700 font-medium text-[14px] lg:text-[16px]">
-                          {getRating(property.property?.rating)}
-                        </h3>
 
-                        <p className="text-[12px] lg:text-[14px] text-gray-700">
-                          ({property.property?.reviewCount || 0} Ratings)
-                        </p>
-                      </div>
+  {/* Price Left */}
+  <div>
+    <h2 className="text-[20px] font-black">
+      ₹ {property.rent}
+    </h2>
 
-                      <span className="bg-blue-700 text-white px-2 py-1 lg:px-3 lg:py-2 rounded-md font-black text-[12px] lg:text-[14px]">
-                        {property.property?.rating || 0}
-                      </span>
-                    </div>
+    <p className="text-gray-600 text-[12px]">
+      Per Month
+    </p>
 
-                    {/* Price - Right on mobile */}
-                    <div className="text-right">
-                      <h2 className="text-[20px] lg:text-[22px] font-black">
-                        ₹ {property.rent}
-                      </h2>
+    <p className="text-gray-600 text-[12px]">
+      + ₹{property.deposit} Deposit
+    </p>
+  </div>
 
-                      <p className="text-gray-600 text-[12px] lg:text-[14px]">
-                        Per Month
-                      </p>
+  {/* Rating Right */}
+  <div className="flex items-start gap-2">
+    <div className="text-right">
+      <h3 className="text-blue-700 font-medium">
+        {getRating(property.property?.rating)}
+      </h3>
 
-                      <p className="text-gray-600 text-[12px] lg:text-[14px]">
-                        + ₹{property.deposit} Deposit
-                      </p>
-                    </div>
+      <p className="text-[12px] text-gray-700">
+        ({property.property?.reviewCount || 0} Ratings)
+      </p>
+    </div>
+
+    <span className="bg-blue-700 text-white px-2 py-1 rounded-md font-black">
+      {property.property?.rating || 0}
+    </span>
+  </div>
+
+</div>
                   </div>
                   <button
                     onClick={() => navigate(`/rooms/${property.property?._id}`)}
