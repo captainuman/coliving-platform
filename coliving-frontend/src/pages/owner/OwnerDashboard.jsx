@@ -57,7 +57,7 @@ const OwnerDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pb-5">
       <Navbar/>
       <div className="p-4 md:p-8 space-y-8">
         

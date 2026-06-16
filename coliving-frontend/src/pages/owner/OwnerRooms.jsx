@@ -152,17 +152,17 @@ const handleDelete = async (id) => {
 };
 
   return (
-    <div className="max-w-7xl mx-auto p-6">
+    <div className="max-w-7xl mx-auto px-3 sm:px-6 pb-5">
       <Navbar />
 
-      <div className="flex justify-between items-center mb-6 mt-6">
-        <h1 className="text-3xl font-bold">Manage Rooms</h1>
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-6 mt-6">
+        <h1 className="text-2xl sm:text-3xl font-bold">Manage Rooms</h1>
       </div>
 
       
 
-      <div className="bg-white rounded-xl shadow overflow-hidden">
-        <table className="w-full">
+      <div className="bg-white rounded-xl shadow overflow-x-auto">
+        <table className="min-w-225 w-full">
           <thead className="bg-gray-100">
             <tr>
               <th className="p-3 text-left">Property</th>
@@ -192,7 +192,8 @@ const handleDelete = async (id) => {
                   <td className="p-3">₹{room.rent}</td>
                   <td className="p-3 capitalize">{abc}</td>
 
-                  <td className="p-3 flex gap-2">
+                  <td className="p-3">
+                    <div className="flex gap-2">
                     <button
                       onClick={() => handleEdit(room)}
                       className="bg-yellow-500 text-white px-3 py-1 rounded"
@@ -206,6 +207,7 @@ const handleDelete = async (id) => {
                     >
                       Delete
                     </button>
+                    </div>
                   </td>
                 </tr>
               );
@@ -312,10 +314,10 @@ const handleDelete = async (id) => {
           className="w-full border p-3 rounded mb-3"
         />
 
-        <div className="flex gap-3">
+        <div className="flex flex-col sm:flex-row gap-3">
           <button
             type="submit"
-            className="bg-black text-white px-6 py-2 rounded"
+            className="w-full sm:w-auto bg-black text-white px-6 py-2 rounded"
           >
             {editingId ? "Update Room" : "Add Room"}
           </button>
@@ -324,7 +326,7 @@ const handleDelete = async (id) => {
             <button
               type="button"
               onClick={resetForm}
-              className="bg-gray-500 text-white px-6 py-2 rounded"
+              className="w-full sm:w-auto bg-gray-500 text-white px-6 py-2 rounded"
             >
               Cancel
             </button>

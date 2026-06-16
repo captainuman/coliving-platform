@@ -281,7 +281,7 @@ export default function Profile() {
               className="absolute inset-0 bg-black/50"
             />
 
-            <aside className="absolute left-0 top-0 h-full w-[280px] bg-gray-900 p-4 space-y-3 overflow-y-auto">
+            <aside className="absolute left-0 top-0 h-full w-70 bg-gray-900 p-4 space-y-3 overflow-y-auto">
               <div className="flex justify-between items-start mb-4">
                 <div>
                   <h1 className="text-[20px] font-bold">Hi, {user.name}</h1>
