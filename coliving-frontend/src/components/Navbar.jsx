@@ -231,18 +231,19 @@ export default function Navbar() {
               )}
 
               {user?.role === "owner" && (
-                <div>
+                <>
                   <Link to="/owner/dashboard" className={mobileNavItem}>
                     <FaChartLine size={18} />
                     <span className="text-[9px] mt-1">DASHBOARD</span>
                     <span className={mobileGlow}></span>
                   </Link>
+
                   <Link to="/owner-dashboard" className={mobileNavItem}>
                     <FaChartLine size={18} />
                     <span className="text-[9px] mt-1">PROPERTY</span>
                     <span className={mobileGlow}></span>
                   </Link>
-                </div>
+                </>
               )}
 
               <Link to="/inbox" className={mobileNavItem}>
