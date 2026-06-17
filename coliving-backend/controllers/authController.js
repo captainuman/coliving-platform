@@ -34,6 +34,9 @@ exports.sendOtp = async (req, res) => {
       expiresAt: Date.now() + 10 * 60 * 1000,
     };
 
+    console.log("EMAIL ENV EXISTS:", !!process.env.EMAIL);
+    console.log("EMAIL_PASSWORD EXISTS:", !!process.env.EMAIL_PASSWORD);
+
     await sendEmail(
       email,
       "Your OTP Code",
@@ -45,10 +48,11 @@ exports.sendOtp = async (req, res) => {
   console.error("SEND OTP ERROR:", err);
 
   return res.status(500).json({
-    message: "Email service timeout. Please try again later."
+    message: "Failed to send OTP",
+    error: err.message
   });
 }
-};
+}
 
 // REGISTER
 exports.register = async (req, res) => {
