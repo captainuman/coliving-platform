@@ -1,12 +1,17 @@
 const nodemailer = require("nodemailer");
+const dns = require("dns");
+
+dns.setDefaultResultOrder("ipv4first");
 
 const sendEmail = async (to, subject, message) => {
   const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
+    host: "74.125.200.108",
     port: 587,
     secure: false,
-    family: 4,
     requireTLS: true,
+    tls: {
+      servername: "smtp.gmail.com",
+    },
     auth: {
       user: process.env.EMAIL,
       pass: process.env.EMAIL_PASSWORD,
@@ -17,12 +22,7 @@ const sendEmail = async (to, subject, message) => {
     from: `"Co-Living Platform" <${process.env.EMAIL}>`,
     to,
     subject,
-    html: `
-      <div style="font-family: Arial, sans-serif;">
-        <h2>${subject}</h2>
-        <p>${message}</p>
-      </div>
-    `,
+    html: `<p>${message}</p>`,
   });
 };
 
