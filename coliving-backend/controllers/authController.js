@@ -40,7 +40,7 @@ exports.sendOtp = async (req, res) => {
     await sendEmail(
       email,
       "Your OTP Code",
-      `Your HomeTown Hub OTP is ${generatedOtp}. It expires in 10 minutes.`,
+      `Your HomeTown Hub OTP is ${generatedOtp}. It expires in 10 minutes.`
     );
 
     res.json({ message: "OTP sent successfully" });
