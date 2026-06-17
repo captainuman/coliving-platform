@@ -198,7 +198,7 @@ export default function Navbar() {
 
       {/* MOBILE NAV */}
       <nav className="md:hidden fixed bottom-0 left-0 w-full z-50 bg-[#181818] border-t border-[#2a2a2a]">
-        <div className="grid grid-cols-5 py-3">
+        <div className="grid grid-cols-6 py-3">
           <Link to="/properties" className={mobileNavItem}>
             <FaHome size={18} />
             <span className="text-[9px] mt-1">HOME</span>

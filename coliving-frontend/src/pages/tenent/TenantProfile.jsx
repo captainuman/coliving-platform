@@ -53,13 +53,13 @@ export default function TenantProfile() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-gray-100 to-slate-200">
+    <div className="min-h-screen bg-linear-to-br from-slate-100 via-gray-100 to-slate-200">
       <Navbar />
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-6 sm:py-10">
         <section className="bg-white rounded-3xl sm:rounded-[2rem] shadow-2xl overflow-hidden">
-          <div className="relative bg-gradient-to-r from-gray-950 via-gray-900 to-black h-56 sm:h-64">
-            <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,_white,_transparent_35%)]" />
+          <div className="relativebg-linear-to-br from-gray-950 via-gray-900 to-black h-56 sm:h-64">
+            <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,white,transparent_35%)]" />
 
             <div className="absolute left-1/2 sm:left-10 -bottom-24 sm:-bottom-16 -translate-x-1/2 sm:translate-x-0 flex flex-col sm:flex-row items-center sm:items-end gap-4 sm:gap-6 w-full px-4 sm:px-0">
               <img
@@ -98,7 +98,7 @@ export default function TenantProfile() {
                   <p className="text-xs sm:text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">
                     {label}
                   </p>
-                  <p className="text-lg sm:text-xl font-black text-gray-900 capitalize break-words">
+                  <p className="text-lg sm:text-xl font-black text-gray-900 capitalize wrap-break-word">
                     {value}
                   </p>
                 </div>
