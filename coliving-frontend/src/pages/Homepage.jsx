@@ -74,7 +74,7 @@ const reviews = [
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-white text-black">
+    <div className="min-h-screen bg-white text-black font-recoleta">
       <Navbar />
 
       {/* HERO */}
@@ -258,7 +258,7 @@ export default function HomePage() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:py-28 bg-black text-white">
+      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:py-28  text-white">
         <div className="mb-14 text-center">
           <p className="mb-3 text-sm uppercase tracking-[0.3em] text-gray-500">
             Simple Process
@@ -268,7 +268,7 @@ export default function HomePage() {
           </h2>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-3">
+        <div className="grid gap-8 md:grid-cols-3 bg-black">
           <Step
             number="01"
             title="Search Rooms"
@@ -287,34 +287,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* REVIEWS */}
-      <section className="bg-black py-20 text-white lg:py-28">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <div className="mb-14 text-center">
-            <p className="mb-3 text-sm uppercase tracking-[0.3em] text-gray-400">
-              Reviews
-            </p>
-            <h2 className="text-3xl font-black sm:text-5xl">
-              Trusted By Tenants & Owners
-            </h2>
-          </div>
-
-          <div className="grid gap-8 md:grid-cols-3">
-            {reviews.map((review) => (
-              <div
-                key={review.name}
-                className="rounded-3xl border border-white/10 bg-white/5 p-8"
-              >
-                <p className="text-2xl font-black">⭐ {review.rating}</p>
-                <p className="mt-5 leading-relaxed text-gray-300">
-                  “{review.text}”
-                </p>
-                <p className="mt-6 font-bold">{review.name}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* CTA */}
       <section className="px-4 py-20 sm:px-6 lg:py-28">
