@@ -54,23 +54,6 @@ const features = [
   },
 ];
 
-const reviews = [
-  {
-    name: "Ayesha Khan",
-    text: "I found a clean shared room near my college and connected with the owner directly. The process was simple and fast.",
-    rating: "5.0",
-  },
-  {
-    name: "Rahul Sharma",
-    text: "The roommate matching helped me avoid random sharing. I found someone with similar habits and routine.",
-    rating: "4.8",
-  },
-  {
-    name: "Priya Nair",
-    text: "As a property owner, listing rooms and managing booking requests became much easier.",
-    rating: "4.9",
-  },
-];
 
 export default function HomePage() {
   return (
@@ -176,7 +159,7 @@ export default function HomePage() {
       </section>
 
       {/* FEATURES */}
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:py-28 ">
+      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:py-28 ">
         <div className="mb-14 text-center">
           <p className="mb-3 text-sm uppercase tracking-[0.3em] text-gray-500">
             Why Choose Us
@@ -201,7 +184,7 @@ export default function HomePage() {
       </section>
 
       {/* FEATURED ROOMS */}
-      <section className="bg-gray-50 py-10 lg:py-28">
+      <section className="bg-gray-50 pb-20 lg:py-10">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="mb-12 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <div>
@@ -258,7 +241,7 @@ export default function HomePage() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:py-28 bg-black  text-white">
+      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:py-10 bg-black  text-white">
         <div className="mb-14 text-center">
           <p className="mb-3 text-sm uppercase tracking-[0.3em] text-gray-500">
             Simple Process
@@ -325,7 +308,7 @@ function Step({ number, title, text }) {
   return (
     <div className="rounded-3xl bg-gray-50 p-8 shadow-sm">
       <p className="mb-6 text-6xl font-black text-gray-300">{number}</p>
-      <h3 className="mb-4 text-2xl font-black">{title}</h3>
+      <h3 className="mb-4 text-2xl font-black text-black">{title}</h3>
       <p className="leading-relaxed text-gray-600">{text}</p>
     </div>
   );
