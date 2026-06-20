@@ -261,14 +261,14 @@ export default function Profile() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen bg-black text-white">
       <Navbar />
 
       <div className="grid lg:grid-cols-[330px_1fr] gap-8 px-4 md:px-15 py-5 lg:py-8">
         {/* Mobile Menu Button */}
         <button
           onClick={() => setMobileMenuOpen(true)}
-          className="lg:hidden bg-black text-white px-4 py-3 rounded-xl font-semibold w-fit mb-4"
+          className="lg:hidden bg-blue-950 text-white px-4 py-3 rounded-xl font-semibold w-fit mb-4"
         >
           ☰ Menu
         </button>
