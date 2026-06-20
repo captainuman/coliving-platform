@@ -268,7 +268,7 @@ export default function Profile() {
         {/* Mobile Menu Button */}
         <button
           onClick={() => setMobileMenuOpen(true)}
-          className="lg:hidden bg-blue-950 text-white px-4 py-3 rounded-xl font-semibold w-fit mb-4"
+          className="lg:hidden bg-black text-white px-4 py-3 rounded-xl font-semibold w-fit mb-4"
         >
           ☰ Menu
         </button>
