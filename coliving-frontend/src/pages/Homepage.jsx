@@ -1,311 +1,320 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import axios from "axios";
 
-const platformStats = [
-  { value: "3", label: "User Roles", detail: "Tenant, Owner, Admin" },
-  { value: "8", label: "Core Models", detail: "User to Feedback" },
-  { value: "24/7", label: "Live Chat", detail: "Socket.IO messaging" },
-];
-
-const featureCards = [
-  {
-    icon: "🏠",
-    title: "Property & Room Listings",
-    description:
-      "Owners can add properties and rooms with rent, capacity, amenities, photos, availability, and approval status.",
-  },
-  {
-    icon: "🤝",
-    title: "Roommate Matching",
-    description:
-      "Tenants can match using lifestyle preferences like food habits, cleanliness, sleep schedule, and gender preference.",
-  },
-  {
-    icon: "📅",
-    title: "Booking Management",
-    description:
-      "Booking requests, room capacity, current tenants, and availability are handled from one organized flow.",
-  },
-  {
-    icon: "💬",
-    title: "Real-Time Chat",
-    description:
-      "Socket.IO based conversations help tenants, owners, and roommates communicate instantly inside the platform.",
-  },
-];
-
-const workflowSteps = [
-  {
-    step: "01",
-    title: "Create Account",
-    description:
-      "Register as a tenant, property owner, or admin with secure JWT-based authentication.",
-  },
-  {
-    step: "02",
-    title: "Find Compatible Living",
-    description:
-      "Explore rooms, compare property details, check ratings, and review roommate compatibility before booking.",
-  },
-  {
-    step: "03",
-    title: "Book, Chat & Manage",
-    description:
-      "Send booking requests, chat in real time, manage tenants, and track reviews or feedback after stay.",
-  },
-];
-
-const projectModules = [
-  "User Authentication",
-  "Property Management",
-  "Room Management",
-  "Booking Flow",
-  "Review System",
-  "Conversation & Messages",
-  "Feedback Handling",
-  "Admin Approval",
-];
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 export default function HomePage() {
+  const [stats, setStats] = useState({
+    properties: 0,
+    rooms: 0,
+    bookings: 0,
+    reviews: 0,
+  });
+
+  const [featuredProperties, setFeaturedProperties] = useState([]);
+  const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchHomeData = async () => {
+      try {
+        const [propertiesRes, roomsRes, bookingsRes, reviewsRes] =
+          await Promise.all([
+            axios.get(`${API_URL}/api/properties`),
+            axios.get(`${API_URL}/api/rooms`),
+            axios.get(`${API_URL}/api/bookings`),
+            axios.get(`${API_URL}/api/reviews`),
+          ]);
+
+        const properties = propertiesRes.data?.properties || propertiesRes.data || [];
+        const rooms = roomsRes.data?.rooms || roomsRes.data || [];
+        const bookings = bookingsRes.data?.bookings || bookingsRes.data || [];
+        const reviewData = reviewsRes.data?.reviews || reviewsRes.data || [];
+
+        setStats({
+          properties: properties.length,
+          rooms: rooms.length,
+          bookings: bookings.length,
+          reviews: reviewData.length,
+        });
+
+        setFeaturedProperties(properties.slice(0, 3));
+        setReviews(reviewData.slice(0, 3));
+      } catch (error) {
+        console.error("Homepage data error:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchHomeData();
+  }, []);
+
   return (
     <div className="min-h-screen bg-gray-50 text-black">
       <Navbar />
 
-      <div className="bg-black px-4 py-4 text-center text-xs font-semibold uppercase tracking-[0.25em] text-gray-300 sm:text-sm md:text-base">
-        Co-Living Space Platform • Smart Roommate & Property Management System
-      </div>
-
-      <section className="relative overflow-hidden bg-black text-white">
-        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_top_right,white,transparent_40%)]" />
-
-        <div className="relative z-10 mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-16 lg:py-24">
-          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-            <div className="text-center lg:text-left">
-              <p className="mb-4 text-xs font-bold uppercase tracking-[0.3em] text-gray-400 sm:text-sm">
-                MERN Stack • JWT • Socket.IO
-              </p>
-
-              <h1 className="mb-6 text-4xl font-black leading-tight sm:text-5xl md:text-6xl lg:text-7xl">
-                Find Rooms,
-                <span className="block text-gray-300">Roommates & Owners</span>
-                In One Platform
-              </h1>
-
-              <p className="mx-auto mb-8 max-w-2xl text-base leading-relaxed text-gray-300 sm:text-lg lg:mx-0">
-                HomeTown Hub connects tenants, property owners, and admins in a
-                single co-living platform with verified listings, roommate
-                matching, online booking, reviews, feedback, and real-time chat.
-              </p>
-
-              <div className="flex flex-col gap-4 sm:flex-row sm:justify-center lg:justify-start">
-                <Link
-                  to="/properties"
-                  className="rounded-2xl bg-white px-8 py-4 text-center font-bold text-black shadow-2xl transition-all hover:scale-105"
-                >
-                  Explore Properties
-                </Link>
-
-                <Link
-                  to="/register"
-                  className="rounded-2xl border border-white px-8 py-4 text-center font-bold transition-all hover:bg-white hover:text-black"
-                >
-                  Register as Owner
-                </Link>
-              </div>
-
-              <div className="mt-12 grid gap-4 sm:grid-cols-3 lg:mt-16">
-                {platformStats.map((stat) => (
-                  <div
-                    key={stat.label}
-                    className="rounded-3xl border border-white/10 bg-white/5 p-5 text-center lg:text-left"
-                  >
-                    <h2 className="text-3xl font-black sm:text-4xl">
-                      {stat.value}
-                    </h2>
-                    <p className="mt-2 font-semibold text-gray-300">
-                      {stat.label}
-                    </p>
-                    <p className="mt-1 text-sm text-gray-500">{stat.detail}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="relative">
-              <div className="rounded-[2rem] bg-white p-5 text-black shadow-2xl sm:p-8 lg:rounded-[2.5rem]">
-                <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                  <div>
-                    <p className="text-sm text-gray-500">Featured Module</p>
-                    <h2 className="mt-1 text-2xl font-black sm:text-3xl">
-                      Verified Co-Living Room
-                    </h2>
-                  </div>
-
-                  <div className="w-fit rounded-full bg-black px-4 py-2 text-sm font-bold text-white">
-                    Admin Approved
-                  </div>
-                </div>
-
-                <div className="mb-6 overflow-hidden rounded-3xl">
-                  <img
-                    src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1400&auto=format&fit=crop"
-                    alt="Modern co-living room"
-                    className="h-56 w-full object-cover sm:h-72"
-                  />
-                </div>
-
-                <div className="mb-6 grid gap-3 sm:grid-cols-3 sm:gap-4">
-                  <div className="rounded-2xl bg-gray-100 p-4 text-center">
-                    <h3 className="text-2xl font-black">₹8K</h3>
-                    <p className="text-sm text-gray-500">Monthly Rent</p>
-                  </div>
-
-                  <div className="rounded-2xl bg-gray-100 p-4 text-center">
-                    <h3 className="text-2xl font-black">4</h3>
-                    <p className="text-sm text-gray-500">Room Capacity</p>
-                  </div>
-
-                  <div className="rounded-2xl bg-gray-100 p-4 text-center">
-                    <h3 className="text-2xl font-black">92%</h3>
-                    <p className="text-sm text-gray-500">Match Score</p>
-                  </div>
-                </div>
-
-                <div className="mb-6 rounded-3xl bg-gray-50 p-5">
-                  <p className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-gray-500">
-                    Project Modules
-                  </p>
-
-                  <div className="flex flex-wrap gap-2">
-                    {projectModules.map((module) => (
-                      <span
-                        key={module}
-                        className="rounded-full bg-white px-3 py-2 text-xs font-semibold text-gray-700 shadow-sm"
-                      >
-                        {module}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <Link
-                  to="/properties"
-                  className="block w-full rounded-2xl bg-black py-4 text-center font-bold text-white transition-all hover:scale-[1.02]"
-                >
-                  View Available Rooms
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:py-24">
-        <div className="mx-auto mb-12 max-w-3xl text-center sm:mb-16">
-          <p className="mb-4 text-xs uppercase tracking-[0.3em] text-gray-500 sm:text-sm">
-            Platform Features
-          </p>
-
-          <h2 className="mb-6 text-3xl font-black sm:text-4xl md:text-5xl">
-            Built For Tenants, Owners & Admins
-          </h2>
-
-          <p className="text-base leading-relaxed text-gray-600 sm:text-lg">
-            The system is designed around your actual project flow: property
-            listings, room availability, tenant bookings, roommate matching,
-            real-time messaging, reviews, feedback, and admin control.
-          </p>
-        </div>
-
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
-          {featureCards.map((feature) => (
-            <div
-              key={feature.title}
-              className="rounded-3xl border border-gray-100 bg-white p-6 shadow-md transition-all hover:-translate-y-1 hover:shadow-2xl sm:p-8"
-            >
-              <div className="mb-5 text-4xl sm:text-5xl">{feature.icon}</div>
-              <h3 className="mb-4 text-xl font-black sm:text-2xl">
-                {feature.title}
-              </h3>
-              <p className="leading-relaxed text-gray-600">
-                {feature.description}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="bg-black py-16 text-white sm:py-20 lg:py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <div className="mb-12 text-center sm:mb-16">
-            <p className="mb-4 text-xs uppercase tracking-[0.3em] text-gray-400 sm:text-sm">
-              Process
+      {/* HERO */}
+      <section className="bg-black text-white">
+        <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:py-24">
+          <div>
+            <p className="mb-4 text-sm font-bold uppercase tracking-[0.3em] text-gray-400">
+              Smart Co-Living Platform
             </p>
 
-            <h2 className="text-3xl font-black sm:text-4xl md:text-5xl">
-              How HomeTown Hub Works
-            </h2>
+            <h1 className="mb-6 text-4xl font-black leading-tight sm:text-5xl lg:text-7xl">
+              Find Rooms,
+              <span className="block text-gray-300">Roommates & Owners</span>
+              In One Place
+            </h1>
+
+            <p className="mb-8 max-w-2xl text-lg leading-relaxed text-gray-300">
+              A real MERN-based co-living platform where tenants can explore
+              rooms, find compatible roommates, send booking requests, chat with
+              owners, and review properties.
+            </p>
+
+            <div className="flex flex-col gap-4 sm:flex-row">
+              <Link
+                to="/properties"
+                className="rounded-2xl bg-white px-8 py-4 text-center font-bold text-black"
+              >
+                Explore Properties
+              </Link>
+
+              <Link
+                to="/register"
+                className="rounded-2xl border border-white px-8 py-4 text-center font-bold hover:bg-white hover:text-black"
+              >
+                Join Platform
+              </Link>
+            </div>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-3 lg:gap-10">
-            {workflowSteps.map((item) => (
-              <div
-                key={item.step}
-                className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm sm:p-8 lg:p-10"
-              >
-                <div className="mb-6 text-5xl font-black text-gray-500 sm:text-6xl">
-                  {item.step}
+          <div className="rounded-[2rem] bg-white p-5 text-black shadow-2xl sm:p-8">
+            <p className="text-sm text-gray-500">Live Platform Data</p>
+
+            <h2 className="mt-2 text-3xl font-black">
+              {loading ? "Loading..." : "Project Overview"}
+            </h2>
+
+            <div className="mt-8 grid grid-cols-2 gap-4">
+              <StatBox value={stats.properties} label="Properties" />
+              <StatBox value={stats.rooms} label="Rooms" />
+              <StatBox value={stats.bookings} label="Bookings" />
+              <StatBox value={stats.reviews} label="Reviews" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* REAL PROJECT MODULES */}
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:py-24">
+        <div className="mb-12 text-center">
+          <p className="mb-3 text-sm uppercase tracking-[0.3em] text-gray-500">
+            Project Features
+          </p>
+
+          <h2 className="text-3xl font-black sm:text-5xl">
+            Built From Your Actual System
+          </h2>
+        </div>
+
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <Feature icon="🏠" title="Property Listings" />
+          <Feature icon="🛏️" title="Room Management" />
+          <Feature icon="🤝" title="Roommate Matching" />
+          <Feature icon="📅" title="Booking Requests" />
+          <Feature icon="💬" title="Real-Time Chat" />
+          <Feature icon="⭐" title="Reviews & Ratings" />
+          <Feature icon="🛡️" title="Admin Approval" />
+          <Feature icon="📩" title="Feedback System" />
+        </div>
+      </section>
+
+      {/* FEATURED PROPERTIES FROM DATABASE */}
+      <section className="bg-white py-16 lg:py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <div className="mb-12 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+            <div>
+              <p className="mb-3 text-sm uppercase tracking-[0.3em] text-gray-500">
+                Real Listings
+              </p>
+              <h2 className="text-3xl font-black sm:text-5xl">
+                Featured Properties
+              </h2>
+            </div>
+
+            <Link to="/properties" className="font-bold underline">
+              View All Properties
+            </Link>
+          </div>
+
+          {featuredProperties.length === 0 ? (
+            <p className="text-gray-500">No properties available yet.</p>
+          ) : (
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {featuredProperties.map((property) => (
+                <div
+                  key={property._id}
+                  className="overflow-hidden rounded-3xl bg-gray-50 shadow-md"
+                >
+                  <img
+                    src={
+                      property.images?.[0] ||
+                      property.image ||
+                      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1400&auto=format&fit=crop"
+                    }
+                    alt={property.title || property.name}
+                    className="h-56 w-full object-cover"
+                  />
+
+                  <div className="p-6">
+                    <h3 className="text-2xl font-black">
+                      {property.title || property.name || "Property"}
+                    </h3>
+
+                    <p className="mt-2 text-gray-600">
+                      {property.location || property.address || "Location not added"}
+                    </p>
+
+                    <div className="mt-5 flex items-center justify-between">
+                      <p className="font-black">
+                        ₹{property.rent || property.price || "N/A"}
+                      </p>
+
+                      <Link
+                        to={`/properties/${property._id}`}
+                        className="rounded-xl bg-black px-4 py-2 text-sm font-bold text-white"
+                      >
+                        View
+                      </Link>
+                    </div>
+                  </div>
                 </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
 
-                <h3 className="mb-4 text-2xl font-black sm:text-3xl">
-                  {item.title}
-                </h3>
+      {/* HOW IT WORKS */}
+      <section className="bg-black py-16 text-white lg:py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <div className="mb-12 text-center">
+            <p className="mb-3 text-sm uppercase tracking-[0.3em] text-gray-400">
+              Process
+            </p>
+            <h2 className="text-3xl font-black sm:text-5xl">How It Works</h2>
+          </div>
 
-                <p className="leading-relaxed text-gray-300">
-                  {item.description}
+          <div className="grid gap-8 md:grid-cols-3">
+            <Step
+              number="01"
+              title="Register"
+              text="Create an account as tenant, owner, or admin using secure authentication."
+            />
+            <Step
+              number="02"
+              title="Explore & Match"
+              text="Tenants explore rooms and find compatible roommates based on preferences."
+            />
+            <Step
+              number="03"
+              title="Book & Chat"
+              text="Send booking requests, chat in real time, and review the property."
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* REVIEWS FROM DATABASE */}
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:py-24">
+        <div className="mb-12 text-center">
+          <p className="mb-3 text-sm uppercase tracking-[0.3em] text-gray-500">
+            User Feedback
+          </p>
+          <h2 className="text-3xl font-black sm:text-5xl">Latest Reviews</h2>
+        </div>
+
+        {reviews.length === 0 ? (
+          <p className="text-center text-gray-500">No reviews available yet.</p>
+        ) : (
+          <div className="grid gap-8 md:grid-cols-3">
+            {reviews.map((review) => (
+              <div key={review._id} className="rounded-3xl bg-white p-8 shadow-md">
+                <p className="text-2xl font-black">⭐ {review.rating || 5}/5</p>
+                <p className="mt-4 text-gray-600">
+                  {review.comment || review.message || "No comment added."}
+                </p>
+                <p className="mt-6 font-bold">
+                  {review.user?.name || review.tenant?.name || "Platform User"}
                 </p>
               </div>
             ))}
           </div>
-        </div>
+        )}
       </section>
 
-      <section className="px-4 py-16 sm:px-6 sm:py-20 lg:py-24">
-        <div className="mx-auto max-w-6xl">
-          <div className="relative overflow-hidden rounded-[2rem] bg-black p-8 text-center text-white sm:p-12 lg:rounded-[3rem] lg:p-16">
-            <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_top_left,white,transparent_35%)]" />
+      {/* CTA */}
+      <section className="px-4 pb-16 sm:px-6 lg:pb-24">
+        <div className="mx-auto max-w-6xl rounded-[2rem] bg-black p-8 text-center text-white sm:p-12 lg:p-16">
+          <h2 className="text-3xl font-black sm:text-5xl lg:text-6xl">
+            Start Your Co-Living Journey
+          </h2>
 
-            <div className="relative z-10">
-              <h2 className="mb-6 text-3xl font-black sm:text-5xl lg:text-6xl">
-                Manage Co-Living
-                <span className="block text-gray-400">The Smarter Way</span>
-              </h2>
+          <p className="mx-auto mt-6 max-w-2xl text-gray-300">
+            Whether you are a tenant looking for a room or an owner managing
+            properties, this platform brings everything into one system.
+          </p>
 
-              <p className="mx-auto mb-10 max-w-2xl text-base leading-relaxed text-gray-300 sm:text-lg">
-                Start with a tenant profile, list a property as an owner, or use
-                the admin dashboard to approve properties, manage users, and
-                monitor platform feedback.
-              </p>
+          <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
+            <Link
+              to="/register"
+              className="rounded-2xl bg-white px-10 py-4 font-black text-black"
+            >
+              Create Account
+            </Link>
 
-              <div className="flex flex-col justify-center gap-4 sm:flex-row sm:gap-5">
-                <Link
-                  to="/register"
-                  className="rounded-2xl bg-white px-10 py-5 text-center font-black text-black transition-all hover:scale-105"
-                >
-                  Get Started
-                </Link>
-
-                <Link
-                  to="/properties"
-                  className="rounded-2xl border border-white px-10 py-5 text-center font-black transition-all hover:bg-white hover:text-black"
-                >
-                  Explore Rooms
-                </Link>
-              </div>
-            </div>
+            <Link
+              to="/properties"
+              className="rounded-2xl border border-white px-10 py-4 font-black hover:bg-white hover:text-black"
+            >
+              Browse Rooms
+            </Link>
           </div>
         </div>
       </section>
+    </div>
+  );
+}
+
+function StatBox({ value, label }) {
+  return (
+    <div className="rounded-2xl bg-gray-100 p-5 text-center">
+      <h3 className="text-3xl font-black">{value}</h3>
+      <p className="mt-2 text-sm font-semibold text-gray-500">{label}</p>
+    </div>
+  );
+}
+
+function Feature({ icon, title }) {
+  return (
+    <div className="rounded-3xl bg-white p-8 shadow-md transition hover:-translate-y-1 hover:shadow-xl">
+      <div className="mb-5 text-5xl">{icon}</div>
+      <h3 className="text-xl font-black">{title}</h3>
+    </div>
+  );
+}
+
+function Step({ number, title, text }) {
+  return (
+    <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
+      <p className="mb-6 text-6xl font-black text-gray-600">{number}</p>
+      <h3 className="mb-4 text-2xl font-black">{title}</h3>
+      <p className="text-gray-300">{text}</p>
     </div>
   );
 }
