@@ -81,7 +81,7 @@ export default function HomePage() {
       <section className="relative overflow-hidden bg-black text-white">
         <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,white,transparent_35%)]" />
 
-        <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:py-24">
+        <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-12 px-4 py-5 sm:px-6 lg:grid-cols-2 lg:py-24">
           <div>
             <p className="mb-4 text-sm font-bold uppercase tracking-[0.3em] text-gray-400">
               Smart Co-Living Made Simple
@@ -190,7 +190,7 @@ export default function HomePage() {
           {features.map((item) => (
             <div
               key={item.title}
-              className="rounded-3xl bg-gray-950 px-8 py-2 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+              className="rounded-3xl bg-gray-50 px-8 pt-2 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
             >
               <div className="mb-5 text-5xl">{item.icon}</div>
               <h3 className="mb-3 text-xl font-black">{item.title}</h3>
@@ -258,7 +258,7 @@ export default function HomePage() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:py-28  text-white">
+      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:py-28 bg-black  text-white">
         <div className="mb-14 text-center">
           <p className="mb-3 text-sm uppercase tracking-[0.3em] text-gray-500">
             Simple Process
@@ -268,7 +268,7 @@ export default function HomePage() {
           </h2>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-3 bg-black">
+        <div className="grid gap-8 md:grid-cols-3">
           <Step
             number="01"
             title="Search Rooms"
