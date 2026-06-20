@@ -175,36 +175,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* SEARCH BAR */}
-      <section className="relative z-20 mx-auto -mt-10 max-w-6xl px-4 sm:px-6">
-        <div className="grid gap-4 rounded-3xl bg-white p-5 shadow-2xl md:grid-cols-4">
-          <input
-            type="text"
-            placeholder="Location"
-            className="rounded-2xl bg-gray-100 px-5 py-4 outline-none"
-          />
-          <select className="rounded-2xl bg-gray-100 px-5 py-4 outline-none">
-            <option>Room Type</option>
-            <option>Shared Room</option>
-            <option>Private Room</option>
-          </select>
-          <select className="rounded-2xl bg-gray-100 px-5 py-4 outline-none">
-            <option>Budget</option>
-            <option>Below ₹8,000</option>
-            <option>₹8,000 - ₹12,000</option>
-            <option>Above ₹12,000</option>
-          </select>
-          <Link
-            to="/properties"
-            className="rounded-2xl bg-black px-5 py-4 text-center font-bold text-white"
-          >
-            Search
-          </Link>
-        </div>
-      </section>
-
       {/* FEATURES */}
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:py-28">
+      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:py-28 ">
         <div className="mb-14 text-center">
           <p className="mb-3 text-sm uppercase tracking-[0.3em] text-gray-500">
             Why Choose Us
@@ -218,7 +190,7 @@ export default function HomePage() {
           {features.map((item) => (
             <div
               key={item.title}
-              className="rounded-3xl bg-gray-50 p-8 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+              className="rounded-3xl bg-gray-950 px-8 py-2 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
             >
               <div className="mb-5 text-5xl">{item.icon}</div>
               <h3 className="mb-3 text-xl font-black">{item.title}</h3>
@@ -229,7 +201,7 @@ export default function HomePage() {
       </section>
 
       {/* FEATURED ROOMS */}
-      <section className="bg-gray-50 py-20 lg:py-28">
+      <section className="bg-gray-50 py-10 lg:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="mb-12 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <div>
@@ -286,7 +258,7 @@ export default function HomePage() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:py-28">
+      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:py-28 bg-black text-white">
         <div className="mb-14 text-center">
           <p className="mb-3 text-sm uppercase tracking-[0.3em] text-gray-500">
             Simple Process
