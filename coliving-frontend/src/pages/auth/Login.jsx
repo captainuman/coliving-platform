@@ -205,26 +205,13 @@ export default function Login() {
                     <h3 className="mb-2 text-lg font-semibold text-indigo-700">
                       👑 Admin
                     </h3>
-
                     <p>
                       <span className="font-medium">Email:</span>{" "}
                       moneybhaifrp@gmail.com
                     </p>
-
                     <p>
                       <span className="font-medium">Password:</span> N12345678
                     </p>
-
-                    <button
-                      className="mt-3 rounded-lg bg-indigo-600 px-3 py-2 text-sm font-medium text-white hover:bg-indigo-700"
-                      onClick={() => {
-                        setEmail("admin@coliving.com");
-                        setPassword("Admin@123");
-                        setShowDemoModal(false);
-                      }}
-                    >
-                      Fill Admin Credentials
-                    </button>
                   </div>
 
                   {/* User */}
@@ -232,26 +219,13 @@ export default function Login() {
                     <h3 className="mb-2 text-lg font-semibold text-emerald-700">
                       🏠 Resident
                     </h3>
-
                     <p>
                       <span className="font-medium">Email:</span>{" "}
                       mdnuman2611@gmail.com
                     </p>
-
                     <p>
                       <span className="font-medium">Password:</span> N12345678
                     </p>
-
-                    <button
-                      className="mt-3 rounded-lg bg-emerald-600 px-3 py-2 text-sm font-medium text-white hover:bg-emerald-700"
-                      onClick={() => {
-                        setEmail("user@coliving.com");
-                        setPassword("User@123");
-                        setShowDemoModal(false);
-                      }}
-                    >
-                      Fill Resident Credentials
-                    </button>
                   </div>
                 </div>
               </div>
