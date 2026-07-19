@@ -85,11 +85,11 @@ export default function Login() {
               Log In
             </h1>
 
-            <div className="mt-6 text-center">
+            <div className="mt-6 mb-2 text-center">
               <button
                 type="button"
                 onClick={() => setShowDemoModal(true)}
-                className="rounded-lg border border-indigo-500 px-4 py-2 text-sm font-medium text-indigo-600 transition hover:bg-indigo-50"
+                className="w-full h-12 sm:h-16 rounded-full bg-[#d9dfef] text-[#4b5265] text-base sm:text-xl font-medium hover:bg-white transition"
               >
                 🎯 View Demo Accounts
               </button>
