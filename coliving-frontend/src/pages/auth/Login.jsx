@@ -150,10 +150,6 @@ export default function Login() {
                 />
                 Remember me
               </label>
-
-              <Link to="/forgot-password" className="italic hover:text-white">
-                Forgot Password?
-              </Link>
             </div>
 
             {/* Google Login */}
