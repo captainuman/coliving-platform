@@ -9,9 +9,9 @@ import { motion } from "framer-motion";
 export default function Login() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-
+  const [showDemoModal, setShowDemoModal] = useState(false);
   const [form, setForm] = useState({
-    email: "",  
+    email: "",
     password: "",
   });
 
@@ -23,167 +23,242 @@ export default function Login() {
   };
 
   const redirectByRole = (user) => {
-  if (user.role === "admin") {
-    navigate("/admin/analytics");
-  } else if (user.role === "owner") {
-    navigate("/owner/dashboard");
-  } else {
-    navigate("/properties");
-  }
-};
+    if (user.role === "admin") {
+      navigate("/admin/analytics");
+    } else if (user.role === "owner") {
+      navigate("/owner/dashboard");
+    } else {
+      navigate("/properties");
+    }
+  };
 
-const handleLogin = async (e) => {
-  e.preventDefault();
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
-  if (!form.email || !form.password) {
-    return toast.error("All fields required");
-  }
+    if (!form.email || !form.password) {
+      return toast.error("All fields required");
+    }
 
-  try {
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    const res = await API.post("/auth/login", form);
+      const res = await API.post("/auth/login", form);
 
-    localStorage.setItem("token", res.data.token);
-    localStorage.setItem(
-      "user",
-      JSON.stringify(res.data.user)
-    );
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
 
-    toast.success("Login successful");
+      toast.success("Login successful");
 
-    redirectByRole(res.data.user);
+      redirectByRole(res.data.user);
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Login failed");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  } catch (err) {
-    toast.error(
-      err.response?.data?.message ||
-      "Login failed"
-    );
-  } finally {
-    setLoading(false);
-  }
-};
+  const handleGoogleLogin = () => {
+    const baseURL =
+      import.meta.env.VITE_API_URL?.replace("/api", "") ||
+      "https://coliving-backend.onrender.com";
 
-const handleGoogleLogin = () => {
-  const baseURL =
-    import.meta.env.VITE_API_URL?.replace("/api", "") ||
-    "https://coliving-backend.onrender.com";
+    window.location.href = `${baseURL}/api/auth/google`;
+  };
 
-  window.location.href =
-    `${baseURL}/api/auth/google`;
-};
+  return (
+    <motion.div
+      initial={{ x: -100, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      exit={{ x: 100, opacity: 0 }}
+      transition={{ duration: 0.4 }}
+    >
+      <Navbar />
 
-return (
-  <motion.div
-    initial={{ x: -100, opacity: 0 }}
-    animate={{ x: 0, opacity: 1 }}
-    exit={{ x: 100, opacity: 0 }}
-    transition={{ duration: 0.4 }}
-  >
-    <Navbar />
+      <main className="min-h-[calc(100vh-80px)] bg-linear-to-br from-black via-[#111827] to-[#1f2937] flex items-center justify-center px-3 sm:px-6 py-6 sm:py-0 font-recoleta">
+        <div className="relative w-full max-w-xl min-h-155 sm:h-[90vh] my-3 sm:my-5 rounded-3xl overflow-hidden shadow-2xl flex items-center justify-center">
+          <div className="absolute inset-0 bg-linear-to-br from-[#7a7383]/60 via-[#1d1e25] to-[#31383a]" />
 
-    <main className="min-h-[calc(100vh-80px)] bg-linear-to-br from-black via-[#111827] to-[#1f2937] flex items-center justify-center px-3 sm:px-6 py-6 sm:py-0 font-recoleta">
-      <div className="relative w-full max-w-xl min-h-155 sm:h-[90vh] my-3 sm:my-5 rounded-3xl overflow-hidden shadow-2xl flex items-center justify-center">
-        
-        <div className="absolute inset-0 bg-linear-to-br from-[#7a7383]/60 via-[#1d1e25] to-[#31383a]" />
-        
-        <div className="absolute bottom-0 left-0 w-full h-[55%] bg-linear-to-tr from-[#7a7383]/60 via-[#8b8588]/40 to-transparent blur-2xl" />
+          <div className="absolute bottom-0 left-0 w-full h-[55%] bg-linear-to-tr from-[#7a7383]/60 via-[#8b8588]/40 to-transparent blur-2xl" />
 
-        <div className="relative z-10 w-full max-w-sm px-4 sm:px-2">
-          
-          <h1 className="text-center text-3xl sm:text-4xl font-light text-white my-5 tracking-wide">
-            Log In
-          </h1>
+          <div className="relative z-10 w-full max-w-sm px-4 sm:px-2">
+            <h1 className="text-center text-3xl sm:text-4xl font-light text-white my-5 tracking-wide">
+              Log In
+            </h1>
 
-          <form onSubmit={handleLogin}>
-            {/* Email */}
-            <div className="mb-5 sm:mb-8 flex items-center rounded-full bg-white/20 backdrop-blur-md overflow-hidden">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 shrink-0 rounded-full bg-[#d9dfef] flex items-center justify-center text-[#4b5265] text-lg sm:text-xl">
-                ✉
-              </div>
-
-              <input
-                type="email"
-                name="email"
-                placeholder="Email ID"
-                value={form.email}
-                onChange={handleChange}
-                className="flex-1 min-w-0 h-12 sm:h-16 bg-transparent px-4 sm:px-5 text-white placeholder-white/60 outline-none"
-                required
-              />
-            </div>
-
-            {/* Password */}
-            <div className="mb-5 sm:mb-8 flex items-center rounded-full bg-white/20 backdrop-blur-md overflow-hidden">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 shrink-0 rounded-full bg-[#d9dfef] flex items-center justify-center text-[#4b5265] text-lg sm:text-xl">
-                🔒
-              </div>
-
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                value={form.password}
-                onChange={handleChange}
-                className="flex-1 min-w-0 h-12 sm:h-16 bg-transparent px-4 sm:px-5 text-white placeholder-white/60 outline-none"
-                required
-              />
-            </div>
-
-            {/* Login Button */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full h-12 sm:h-16 rounded-full bg-[#d9dfef] text-[#4b5265] text-base sm:text-xl font-medium hover:bg-white transition"
-            >
-              {loading ? "Signing In..." : "Sign In"}
-            </button>
-          </form>
-
-          {/* Remember / Forgot */}
-          <div className="mt-5 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between text-white/45 text-sm sm:text-base">
-            <label className="flex items-center gap-3">
-              <input
-                type="checkbox"
-                defaultChecked
-                className="accent-[#6d7078]"
-              />
-              Remember me
-            </label>
-
-            <Link
-              to="/forgot-password"
-              className="italic hover:text-white"
-            >
-              Forgot Password?
-            </Link>
-          </div>
-
-          {/* Google Login */}
-          <button
-            onClick={handleGoogleLogin}
-            className="mt-6 w-full h-12 sm:h-14 rounded-full bg-white/15 border border-white/10 text-white/70 font-medium flex items-center justify-center gap-3 hover:bg-white/25 transition"
-          >
-            <FcGoogle className="text-xl sm:text-2xl" />
-            Continue with Google
-          </button>
-
-          {/* Register */}
-          <div className="mt-8 text-center">
-            <p className="text-white/50 text-sm sm:text-base">
-              Don't have an account?{" "}
-              <Link
-                to="/register"
-                className="text-white font-semibold hover:text-blue-300 transition-colors"
+            <div className="mt-6 text-center">
+              <button
+                type="button"
+                onClick={() => setShowDemoModal(true)}
+                className="rounded-lg border border-indigo-500 px-4 py-2 text-sm font-medium text-indigo-600 transition hover:bg-indigo-50"
               >
-                Register
-              </Link>
-            </p>
-          </div>
+                🎯 View Demo Accounts
+              </button>
+            </div>
 
+            <form onSubmit={handleLogin}>
+              {/* Email */}
+              <div className="mb-5 sm:mb-8 flex items-center rounded-full bg-white/20 backdrop-blur-md overflow-hidden">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 shrink-0 rounded-full bg-[#d9dfef] flex items-center justify-center text-[#4b5265] text-lg sm:text-xl">
+                  ✉
+                </div>
+
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email ID"
+                  value={form.email}
+                  onChange={handleChange}
+                  className="flex-1 min-w-0 h-12 sm:h-16 bg-transparent px-4 sm:px-5 text-white placeholder-white/60 outline-none"
+                  required
+                />
+              </div>
+
+              {/* Password */}
+              <div className="mb-5 sm:mb-8 flex items-center rounded-full bg-white/20 backdrop-blur-md overflow-hidden">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 shrink-0 rounded-full bg-[#d9dfef] flex items-center justify-center text-[#4b5265] text-lg sm:text-xl">
+                  🔒
+                </div>
+
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  value={form.password}
+                  onChange={handleChange}
+                  className="flex-1 min-w-0 h-12 sm:h-16 bg-transparent px-4 sm:px-5 text-white placeholder-white/60 outline-none"
+                  required
+                />
+              </div>
+
+              {/* Login Button */}
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full h-12 sm:h-16 rounded-full bg-[#d9dfef] text-[#4b5265] text-base sm:text-xl font-medium hover:bg-white transition"
+              >
+                {loading ? "Signing In..." : "Sign In"}
+              </button>
+            </form>
+
+            {/* Remember / Forgot */}
+            <div className="mt-5 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between text-white/45 text-sm sm:text-base">
+              <label className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  defaultChecked
+                  className="accent-[#6d7078]"
+                />
+                Remember me
+              </label>
+
+              <Link to="/forgot-password" className="italic hover:text-white">
+                Forgot Password?
+              </Link>
+            </div>
+
+            {/* Google Login */}
+            <button
+              onClick={handleGoogleLogin}
+              className="mt-6 w-full h-12 sm:h-14 rounded-full bg-white/15 border border-white/10 text-white/70 font-medium flex items-center justify-center gap-3 hover:bg-white/25 transition"
+            >
+              <FcGoogle className="text-xl sm:text-2xl" />
+              Continue with Google
+            </button>
+
+            {/* Register */}
+            <div className="mt-8 text-center">
+              <p className="text-white/50 text-sm sm:text-base">
+                Don't have an account?{" "}
+                <Link
+                  to="/register"
+                  className="text-white font-semibold hover:text-blue-300 transition-colors"
+                >
+                  Register
+                </Link>
+              </p>
+            </div>
+          </div>
+          {showDemoModal && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+              <div className="relative w-full max-w-lg rounded-2xl bg-white shadow-2xl">
+                {/* Header */}
+                <div className="flex items-center justify-between border-b px-6 py-4">
+                  <div>
+                    <h2 className="text-xl font-bold">Demo Accounts</h2>
+                    <p className="text-sm text-gray-500">
+                      Use these credentials to explore the platform.
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={() => setShowDemoModal(false)}
+                    className="text-2xl text-gray-500 hover:text-red-500"
+                  >
+                    ×
+                  </button>
+                </div>
+
+                {/* Body */}
+                <div className="space-y-5 p-6">
+                  {/* Admin */}
+                  <div className="rounded-xl border border-indigo-200 bg-indigo-50 p-4">
+                    <h3 className="mb-2 text-lg font-semibold text-indigo-700">
+                      👑 Admin
+                    </h3>
+
+                    <p>
+                      <span className="font-medium">Email:</span>{" "}
+                      moneybhaifrp@gmail.com
+                    </p>
+
+                    <p>
+                      <span className="font-medium">Password:</span> N12345678
+                    </p>
+
+                    <button
+                      className="mt-3 rounded-lg bg-indigo-600 px-3 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+                      onClick={() => {
+                        setEmail("admin@coliving.com");
+                        setPassword("Admin@123");
+                        setShowDemoModal(false);
+                      }}
+                    >
+                      Fill Admin Credentials
+                    </button>
+                  </div>
+
+                  {/* User */}
+                  <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4">
+                    <h3 className="mb-2 text-lg font-semibold text-emerald-700">
+                      🏠 Resident
+                    </h3>
+
+                    <p>
+                      <span className="font-medium">Email:</span>{" "}
+                      mdnuman2611@gmail.com
+                    </p>
+
+                    <p>
+                      <span className="font-medium">Password:</span> N12345678
+                    </p>
+
+                    <button
+                      className="mt-3 rounded-lg bg-emerald-600 px-3 py-2 text-sm font-medium text-white hover:bg-emerald-700"
+                      onClick={() => {
+                        setEmail("user@coliving.com");
+                        setPassword("User@123");
+                        setShowDemoModal(false);
+                      }}
+                    >
+                      Fill Resident Credentials
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-      </div>
-    </main>
-  </motion.div>
-);
+      </main>
+    </motion.div>
+  );
 }
